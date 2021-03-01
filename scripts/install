@@ -128,8 +128,6 @@ ldconfig
 
 echo "root:1000000:65536 # Added by lxd#" | sudo tee -a /etc/subuid /etc/subgid
 
-lxd init --auto --storage-backend=dir
-
 #=================================================
 # GENERIC FINALIZATION
 #=================================================
