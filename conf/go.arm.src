@@ -1,0 +1,7 @@
+SOURCE_URL=https://golang.org/dl/go1.16.linux-armv6l.tar.gz
+SOURCE_SUM=d1d9404b1dbd77afa2bdc70934e10fbfcf7d785c372efc29462bb7d83d0a32fd
+SOURCE_SUM_PRG=sha256sum
+SOURCE_FORMAT=tar.gz
+SOURCE_IN_SUBDIR=true
+SOURCE_FILENAME=
+SOURCE_EXTRACT=true

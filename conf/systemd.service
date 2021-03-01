@@ -1,13 +1,23 @@
 [Unit]
-Description=Small description of the service
-After=network.target
+Description=LXD Container Hypervisor
+After=network-online.target
+Requires=network-online.target __APP__.socket
+Documentation=man:lxd(1)
 
 [Service]
-Type=simple
-User=__APP__
-Group=__APP__
-WorkingDirectory=__FINALPATH__/
-ExecStart=__FINALPATH__/script >> /var/log/__APP__/__APP__.log 2>&1
+Environment=LXD_OVMF_PATH=/usr/share/ovmf/x64
+ExecStart=/usr/local/bin/__APP__ --group=__APP__ --logfile=/var/log/__APP__/__APP__.log
+ExecStartPost=/usr/local/bin/__APP__ waitready --timeout=600
+ExecStop=/usr/local/bin/__APP__ shutdown
+TimeoutStartSec=600s
+TimeoutStopSec=30s
+Restart=on-failure
+LimitNOFILE=1048576
+LimitNPROC=infinity
+LimitCORE=infinity
+TasksMax=infinity
+Delegate=yes
+KillMode=process
 
 [Install]
 WantedBy=multi-user.target
