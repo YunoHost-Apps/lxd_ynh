@@ -102,14 +102,6 @@ ynh_system_user_create --username=$app
 #=================================================
 # SPECIFIC SETUP
 #=================================================
-# CONFIGURE DNSMASQ
-#=================================================
-
-echo "bind-interfaces
-except-interface=lxdbr0" > /etc/dnsmasq.d/lxd
-systemctl restart dnsmasq
-
-#=================================================
 # SETUP SYSTEMD
 #=================================================
 ynh_script_progression --message="Configuring a systemd service..." --time --weight=1
@@ -122,11 +114,19 @@ ynh_add_systemd_config
 # MODIFY A CONFIG FILE
 #=================================================
 
+echo "bind-interfaces
+except-interface=lxdbr0" > /etc/dnsmasq.d/lxd
+systemctl restart dnsmasq
+
+ynh_store_file_checksum --file="/etc/dnsmasq.d/lxd"
+
 echo "/usr/local/lib/$app/" > /etc/ld.so.conf.d/$app.conf
+
+ynh_store_file_checksum --file="/etc/ld.so.conf.d/$app.conf"
 
 ldconfig
 
-echo "root:1000000:65536 # Added by lxd#" | sudo tee -a /etc/subuid /etc/subgid
+echo "root:1000000:65536 # Added by lxd#" | tee -a /etc/subuid /etc/subgid
 
 #=================================================
 # GENERIC FINALIZATION

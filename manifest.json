@@ -7,7 +7,7 @@
     },
     "version": "4.11~ynh1",
     "url": "https://example.com",
-    "license": "free",
+    "license": "Apache-2.0",
     "maintainer": {
         "name": "kay0u",
         "email": "pierre@kayou.io"
