@@ -3,7 +3,7 @@
     "id": "lxd",
     "packaging_format": 1,
     "description": {
-        "en": "LXD offers a user experience similar to virtual machines but using Linux containers instead."
+        "en": "Offers a user experience similar to virtual machines but using Linux containers instead."
     },
     "version": "4.11~ynh1",
     "url": "https://example.com",
