@@ -29,28 +29,28 @@ app=$YNH_APP_INSTANCE_NAME
 #=================================================
 # STORE SETTINGS FROM MANIFEST
 #=================================================
-ynh_script_progression --message="Storing installation settings..." --time --weight=1
+ynh_script_progression --message="Storing installation settings..."
 
 #=================================================
 # STANDARD MODIFICATIONS
 #=================================================
 # OPEN A PORT
 #=================================================
-ynh_script_progression --message="Configuring firewall..." --time --weight=1
+ynh_script_progression --message="Configuring firewall..."
 
 ynh_exec_warn_less yunohost firewall allow --no-upnp Both 67
 
 #=================================================
 # INSTALL DEPENDENCIES
 #=================================================
-ynh_script_progression --message="Installing dependencies..." --time --weight=1
+ynh_script_progression --message="Installing dependencies..." --weight=30
 
 ynh_exec_warn_less ynh_install_app_dependencies $pkg_dependencies
 
 #=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
 #=================================================
-ynh_script_progression --message="Setting up source files..." --time --weight=1
+ynh_script_progression --message="Setting up source files..." --weight=5
 
 # Download, check integrity, uncompress and patch the source from app.src
 go_tmp=$(mktemp -d)
@@ -66,7 +66,7 @@ export GOPATH=${lxd_tmp}/_dist
 #=================================================
 # BUILD FROM SOURCES
 #=================================================
-ynh_script_progression --message="Building lxd from sources..." --time --weight=1
+ynh_script_progression --message="Building lxd from sources..." --weight=60
 
 pushd ${lxd_tmp}
 
@@ -94,7 +94,7 @@ ynh_secure_remove --file="$lxd_tmp"
 #=================================================
 # CREATE DEDICATED USER
 #=================================================
-ynh_script_progression --message="Configuring system user..." --time --weight=1
+ynh_script_progression --message="Configuring system user..."
 
 # Create a system user
 ynh_system_user_create --username=$app
@@ -104,7 +104,7 @@ ynh_system_user_create --username=$app
 #=================================================
 # SETUP SYSTEMD
 #=================================================
-ynh_script_progression --message="Configuring a systemd service..." --time --weight=1
+ynh_script_progression --message="Configuring a systemd service..."
 
 # Create a dedicated systemd config
 ynh_add_systemd_socket_config
@@ -133,14 +133,14 @@ echo "root:1000000:65536 # Added by lxd#" | tee -a /etc/subuid /etc/subgid
 #=================================================
 # INTEGRATE SERVICE IN YUNOHOST
 #=================================================
-ynh_script_progression --message="Integrating service in YunoHost..." --time --weight=1
+ynh_script_progression --message="Integrating service in YunoHost..."
 
 yunohost service add $app --log="/var/log/$app/$app.log" --needs_exposed_ports=67
 
 #=================================================
 # START SYSTEMD SERVICE
 #=================================================
-ynh_script_progression --message="Starting a systemd service..." --time --weight=1
+ynh_script_progression --message="Starting a systemd service..."
 
 # Start a systemd service
 ynh_systemd_action --service_name=$app --action="start" --log_path="/var/log/$app/$app.log"
@@ -149,4 +149,4 @@ ynh_systemd_action --service_name=$app --action="start" --log_path="/var/log/$ap
 # END OF SCRIPT
 #=================================================
 
-ynh_script_progression --message="Installation of $app completed" --time --last
+ynh_script_progression --message="Installation of $app completed" --last
