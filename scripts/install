@@ -45,7 +45,7 @@ ynh_exec_warn_less yunohost firewall allow --no-upnp Both 67
 #=================================================
 ynh_script_progression --message="Installing dependencies..." --time --weight=1
 
-ynh_install_app_dependencies $pkg_dependencies
+ynh_exec_warn_less ynh_install_app_dependencies $pkg_dependencies
 
 #=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
@@ -70,7 +70,7 @@ ynh_script_progression --message="Building lxd from sources..." --time --weight=
 
 pushd ${lxd_tmp}
 
-make deps
+ynh_exec_warn_less make deps
 export CGO_CFLAGS="-I${GOPATH}/deps/raft/include/ -I${GOPATH}/deps/dqlite/include/"
 export CGO_LDFLAGS="-L${GOPATH}/deps/raft/.libs -L${GOPATH}/deps/dqlite/.libs/"
 export LD_LIBRARY_PATH="${GOPATH}/deps/raft/.libs/:${GOPATH}/deps/dqlite/.libs/"
@@ -80,7 +80,7 @@ cd $GOPATH/src/github.com/lxc/lxd
 # https://github.com/golang/go/issues/31997#issuecomment-782864390
 go env -w GO111MODULE=auto
 
-make
+ynh_exec_warn_less make
 
 mkdir -p /usr/local/lib/$app
 mkdir -p /var/log/$app

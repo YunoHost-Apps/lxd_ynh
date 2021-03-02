@@ -36,7 +36,7 @@ ynh_script_progression --message="Stopping and removing the systemd service..." 
 
 # Remove the dedicated systemd config
 ynh_remove_systemd_socket_config
-ynh_remove_systemd_config
+ynh_exec_warn_less  ynh_remove_systemd_config
 
 #=================================================
 # REMOVE DEPENDENCIES
@@ -44,7 +44,7 @@ ynh_remove_systemd_config
 ynh_script_progression --message="Removing dependencies..." --time --weight=1
 
 # Remove metapackage and its dependencies
-ynh_remove_app_dependencies
+ynh_exec_warn_less  ynh_remove_app_dependencies
 
 #=================================================
 # CLOSE A PORT

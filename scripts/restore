@@ -53,7 +53,7 @@ ynh_exec_warn_less yunohost firewall allow --no-upnp Both 67
 ynh_script_progression --message="Reinstalling dependencies..." --time --weight=1
 
 # Define and install dependencies
-ynh_install_app_dependencies $pkg_dependencies
+ynh_exec_warn_less ynh_install_app_dependencies $pkg_dependencies
 
 #=================================================
 # RESTORE SYSTEMD
