@@ -75,6 +75,8 @@ yunohost service add $app --log="/var/log/$app/$app.log" --needs_exposed_ports=6
 # RESTORE VARIOUS FILES
 #=================================================
 
+ynh_restore_file --origin_path="/var/log/$app/"
+
 ynh_restore_file --origin_path="/usr/local/lib/$app/"
 
 ynh_restore_file --origin_path="/usr/local/bin/lxc"
