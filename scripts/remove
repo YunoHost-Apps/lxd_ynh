@@ -77,7 +77,7 @@ ynh_secure_remove --file="/usr/local/bin/lxd"
 ynh_secure_remove --file="/usr/local/bin/lxc-to-lxd"
 ynh_secure_remove --file="/usr/local/bin/lxd-p2c"
 
-sed -i "/root:1000000:65536 # Added by lxd#/d" /etc/sub{uid,gid}
+sed -i "/# Added by lxd$/{N;/root:100000:65536/d}" /etc/sub{u,g}id
 
 #=================================================
 # GENERIC FINALIZATION

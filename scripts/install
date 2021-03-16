@@ -126,7 +126,8 @@ ynh_store_file_checksum --file="/etc/ld.so.conf.d/$app.conf"
 
 ldconfig
 
-echo "root:1000000:65536 # Added by lxd#" | tee -a /etc/subuid /etc/subgid
+echo "# Added by lxd
+root:100000:65536" | tee -a /etc/subuid /etc/subgid
 
 #=================================================
 # GENERIC FINALIZATION

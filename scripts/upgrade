@@ -21,6 +21,8 @@ app=$YNH_APP_INSTANCE_NAME
 #=================================================
 ynh_script_progression --message="Ensuring downward compatibility..."
 
+sed -i "/root:1000000:65536 # Added by lxd#/d" /etc/sub{u,g}id
+
 #=================================================
 # BACKUP BEFORE UPGRADE THEN ACTIVE TRAP
 #=================================================
@@ -136,7 +138,8 @@ ynh_store_file_checksum --file="/etc/ld.so.conf.d/$app.conf"
 
 ldconfig
 
-echo "root:1000000:65536 # Added by lxd#" | tee -a /etc/subuid /etc/subgid
+echo "# Added by lxd
+root:100000:65536" | tee -a /etc/subuid /etc/subgid
 
 #=================================================
 # GENERIC FINALIZATION

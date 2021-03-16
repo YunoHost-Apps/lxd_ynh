@@ -92,7 +92,8 @@ ynh_restore_file --origin_path="/etc/ld.so.conf.d/$app.conf"
 
 ldconfig
 
-echo "root:1000000:65536 # Added by lxd#" | tee -a /etc/subuid /etc/subgid
+echo "# Added by lxd
+root:100000:65536" | tee -a /etc/subuid /etc/subgid
 
 #=================================================
 # START SYSTEMD SERVICE
