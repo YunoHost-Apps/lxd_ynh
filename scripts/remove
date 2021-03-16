@@ -94,7 +94,7 @@ ynh_system_user_delete --username=$app
 # INFO TO REMOVE CONTAINERS
 #=================================================
 
-ynh_print_warn --message="If you really want to delete all containers and files related to lxd please run \"sudo rm /var/lib/lxd -rf\""
+ynh_print_warn --message="If you really want to delete all containers and files related to lxd please run \"rm /var/lib/lxd -rf\""
 
 #=================================================
 # END OF SCRIPT
