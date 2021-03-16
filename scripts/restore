@@ -83,6 +83,7 @@ ynh_restore_file --origin_path="/usr/local/bin/lxc"
 ynh_restore_file --origin_path="/usr/local/bin/lxd"
 ynh_restore_file --origin_path="/usr/local/bin/lxc-to-lxd"
 ynh_restore_file --origin_path="/usr/local/bin/lxd-p2c"
+ynh_restore_file --origin_path="/etc/bash_completion.d/lxd-client"
 
 ynh_restore_file --origin_path="/etc/dnsmasq.d/lxd"
 

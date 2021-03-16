@@ -54,6 +54,7 @@ ynh_backup --src_path="/usr/local/bin/lxc"
 ynh_backup --src_path="/usr/local/bin/lxd"
 ynh_backup --src_path="/usr/local/bin/lxc-to-lxd"
 ynh_backup --src_path="/usr/local/bin/lxd-p2c"
+ynh_backup --src_path="/etc/bash_completion.d/lxd-client"
 
 ynh_backup --src_path="/etc/dnsmasq.d/lxd"
 
