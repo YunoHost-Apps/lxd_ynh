@@ -5,7 +5,7 @@
     "description": {
         "en": "Offers a user experience similar to virtual machines but using Linux containers instead."
     },
-    "version": "4.11~ynh1",
+    "version": "4.12~ynh1",
     "url": "https://example.com",
     "license": "Apache-2.0",
     "maintainer": {
