@@ -86,6 +86,7 @@ mkdir -p /usr/local/lib/$app
 mkdir -p /var/log/$app
 cp -a ${GOPATH}/deps/{raft,dqlite}/.libs/lib*.so* /usr/local/lib/$app/
 cp ${GOPATH}/bin/{lxc,lxd,lxc-to-lxd,lxd-p2c} /usr/local/bin
+cp ${lxd_tmp}/scripts/bash/lxd-client /etc/bash_completion.d/
 popd
 
 ynh_secure_remove --file="$go_tmp"
@@ -126,7 +127,8 @@ ynh_store_file_checksum --file="/etc/ld.so.conf.d/$app.conf"
 
 ldconfig
 
-echo "root:1000000:65536 # Added by lxd#" | tee -a /etc/subuid /etc/subgid
+echo "# Added by lxd
+root:100000:65536" | tee -a /etc/subuid /etc/subgid
 
 #=================================================
 # GENERIC FINALIZATION

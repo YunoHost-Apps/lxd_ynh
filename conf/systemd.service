@@ -9,6 +9,8 @@ Environment=LXD_OVMF_PATH=/usr/share/ovmf/x64
 ExecStart=/usr/local/bin/__APP__ --group=__APP__ --logfile=/var/log/__APP__/__APP__.log
 ExecStartPost=/usr/local/bin/__APP__ waitready --timeout=600
 ExecStop=/usr/local/bin/__APP__ shutdown
+User=root
+Group=root
 TimeoutStartSec=600s
 TimeoutStopSec=30s
 Restart=on-failure
