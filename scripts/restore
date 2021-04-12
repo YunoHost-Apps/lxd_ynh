@@ -39,13 +39,6 @@ ynh_script_progression --message="Recreating the dedicated system user..."
 ynh_system_user_create --username=$app
 
 #=================================================
-# OPEN A PORT
-#=================================================
-ynh_script_progression --message="Configuring firewall..."
-
-ynh_exec_warn_less yunohost firewall allow --no-upnp Both 67
-
-#=================================================
 # SPECIFIC RESTORATION
 #=================================================
 # REINSTALL DEPENDENCIES
@@ -69,7 +62,7 @@ systemctl enable $app.service --quiet
 #=================================================
 ynh_script_progression --message="Integrating service in YunoHost..."
 
-yunohost service add $app --log="/var/log/$app/$app.log" --needs_exposed_ports=67
+yunohost service add $app --log="/var/log/$app/$app.log"
 
 #=================================================
 # RESTORE VARIOUS FILES
