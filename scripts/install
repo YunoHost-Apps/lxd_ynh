@@ -34,13 +34,6 @@ ynh_script_progression --message="Storing installation settings..."
 #=================================================
 # STANDARD MODIFICATIONS
 #=================================================
-# OPEN A PORT
-#=================================================
-ynh_script_progression --message="Configuring firewall..."
-
-ynh_exec_warn_less yunohost firewall allow --no-upnp Both 67
-
-#=================================================
 # INSTALL DEPENDENCIES
 #=================================================
 ynh_script_progression --message="Installing dependencies..." --weight=30
@@ -137,7 +130,7 @@ root:100000:65536" | tee -a /etc/subuid /etc/subgid
 #=================================================
 ynh_script_progression --message="Integrating service in YunoHost..."
 
-yunohost service add $app --log="/var/log/$app/$app.log" --needs_exposed_ports=67
+yunohost service add $app --log="/var/log/$app/$app.log"
 
 #=================================================
 # START SYSTEMD SERVICE
