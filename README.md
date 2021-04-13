@@ -9,7 +9,7 @@ If you don't have YunoHost, please consult [the guide](https://yunohost.org/#/in
 ## Overview
 LXD is a next generation system container manager. It offers a user experience similar to virtual machines but using Linux containers instead.
 
-**Shipped version:** 4.12
+**Shipped version:** 4.13
 
 ## Demo
 
