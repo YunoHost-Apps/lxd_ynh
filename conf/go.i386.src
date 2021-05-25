@@ -1,5 +1,5 @@
-SOURCE_URL=https://golang.org/dl/go1.16.3.linux-386.tar.gz
-SOURCE_SUM=48b2d1481db756c88c18b1f064dbfc3e265ce4a775a23177ca17e25d13a24c5d
+SOURCE_URL=https://golang.org/dl/go1.16.4.linux-386.tar.gz
+SOURCE_SUM=cd1b146ef6e9006f27dd99e9687773e7fef30e8c985b7d41bff33e955a3bb53a
 SOURCE_SUM_PRG=sha256sum
 SOURCE_FORMAT=tar.gz
 SOURCE_IN_SUBDIR=true
