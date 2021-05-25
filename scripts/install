@@ -14,6 +14,8 @@ source /usr/share/yunohost/helpers
 #=================================================
 
 ynh_clean_setup () {
+	ynh_exec_warn_less popd
+
 	ynh_secure_remove --file="$go_tmp"
 	ynh_secure_remove --file="$lxd_tmp"
 }
