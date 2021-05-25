@@ -72,6 +72,8 @@ export LD_LIBRARY_PATH="${GOPATH}/deps/raft/.libs/:${GOPATH}/deps/dqlite/.libs/"
 export CGO_LDFLAGS_ALLOW="-Wl,-wrap,pthread_create"
 cd $GOPATH/src/github.com/lxc/lxd
 
+export GOCACHE=$go_tmp
+
 ynh_exec_warn_less make
 
 mkdir -p /usr/local/lib/$app
