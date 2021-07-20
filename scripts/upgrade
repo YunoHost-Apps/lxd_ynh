@@ -84,7 +84,7 @@ ynh_exec_warn_less make deps
 export CGO_CFLAGS="-I${GOPATH}/deps/raft/include/ -I${GOPATH}/deps/dqlite/include/"
 export CGO_LDFLAGS="-L${GOPATH}/deps/raft/.libs -L${GOPATH}/deps/dqlite/.libs/"
 export LD_LIBRARY_PATH="${GOPATH}/deps/raft/.libs/:${GOPATH}/deps/dqlite/.libs/"
-export CGO_LDFLAGS_ALLOW="-Wl,-wrap,pthread_create"
+export CGO_LDFLAGS_ALLOW="(-Wl,-wrap,pthread_create)|(-Wl,-z,now)"
 cd $GOPATH/src/github.com/lxc/lxd
 
 export GOCACHE=$go_tmp
