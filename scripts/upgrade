@@ -71,7 +71,7 @@ export PATH=$go_tmp/bin:$PATH
 lxd_tmp=$(mktemp -d)
 ynh_setup_source --dest_dir="$lxd_tmp" --source_id="lxd"
 
-export GOPATH=${lxd_tmp}/_dist
+export GOPATH=${lxd_tmp}/vendor/
 
 #=================================================
 # BUILD FROM SOURCES
@@ -81,11 +81,10 @@ ynh_script_progression --message="Building lxd from sources..." --weight=60
 pushd ${lxd_tmp}
 
 ynh_exec_warn_less make deps
-export CGO_CFLAGS="-I${GOPATH}/deps/raft/include/ -I${GOPATH}/deps/dqlite/include/"
-export CGO_LDFLAGS="-L${GOPATH}/deps/raft/.libs -L${GOPATH}/deps/dqlite/.libs/"
-export LD_LIBRARY_PATH="${GOPATH}/deps/raft/.libs/:${GOPATH}/deps/dqlite/.libs/"
+export CGO_CFLAGS="-I${GOPATH}/raft/include/ -I${GOPATH}/dqlite/include/"
+export CGO_LDFLAGS="-L${GOPATH}/raft/.libs -L${GOPATH}/dqlite/.libs/"
+export LD_LIBRARY_PATH="${GOPATH}/raft/.libs/:${GOPATH}/dqlite/.libs/"
 export CGO_LDFLAGS_ALLOW="(-Wl,-wrap,pthread_create)|(-Wl,-z,now)"
-cd $GOPATH/src/github.com/lxc/lxd
 
 export GOCACHE=$go_tmp
 
@@ -93,7 +92,7 @@ ynh_exec_warn_less make
 
 mkdir -p /usr/local/lib/$app
 mkdir -p /var/log/$app
-cp -a ${GOPATH}/deps/{raft,dqlite}/.libs/lib*.so* /usr/local/lib/$app/
+cp -a ${GOPATH}/{raft,dqlite}/.libs/lib*.so* /usr/local/lib/$app/
 cp ${GOPATH}/bin/{lxc,lxd,lxc-to-lxd,lxd-p2c} /usr/local/bin
 cp ${lxd_tmp}/scripts/bash/lxd-client /etc/bash_completion.d/
 popd
