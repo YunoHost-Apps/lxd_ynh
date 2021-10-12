@@ -91,10 +91,15 @@ ynh_script_progression --message="Removing the dedicated system user..."
 ynh_system_user_delete --username=$app
 
 #=================================================
-# INFO TO REMOVE CONTAINERS
+# REMOVE CONTAINERS
 #=================================================
 
-ynh_print_warn --message="If you really want to delete all containers and files related to lxd please run \"rm /var/lib/lxd -rf\""
+# Remove the data directory if --purge option is used
+if [ "${YNH_APP_PURGE:-0}" -eq 1 ]
+then
+	ynh_script_progression --message="Removing containers..."
+	ynh_secure_remove --file="/var/lib/lxd"
+fi
 
 #=================================================
 # END OF SCRIPT
