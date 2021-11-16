@@ -1,5 +1,5 @@
-SOURCE_URL=https://github.com/lxc/lxd/releases/download/lxd-4.19/lxd-4.19.tar.gz
-SOURCE_SUM=6e4cf6cb1549e1b56802d64ad24d812914e0c0102bfcf146bb18a8dcd1fbab57
+SOURCE_URL=https://github.com/lxc/lxd/releases/download/lxd-4.20/lxd-4.20.tar.gz
+SOURCE_SUM=35504ef2e2dc7024b7088010987657969b1e2dea5581b24b4294f8f449248ed5
 SOURCE_SUM_PRG=sha256sum
 SOURCE_FORMAT=tar.gz
 SOURCE_IN_SUBDIR=true
