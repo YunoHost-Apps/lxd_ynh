@@ -65,6 +65,8 @@ ynh_script_progression --message="Building lxd from sources..." --weight=60
 
 pushd ${lxd_tmp}
 
+export HOME=${HOME:-"/root/"}
+
 ynh_exec_warn_less make deps
 export CGO_CFLAGS="-I${GOPATH}/raft/include/ -I${GOPATH}/dqlite/include/"
 export CGO_LDFLAGS="-L${GOPATH}/raft/.libs -L${GOPATH}/dqlite/.libs/"
