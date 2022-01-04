@@ -80,6 +80,10 @@ ynh_secure_remove --file="/etc/bash_completion.d/lxd-client"
 
 sed -i "/# Added by lxd$/{N;/root:100000:65536/d}" /etc/sub{u,g}id
 
+ynh_secure_remove --file="/etc/dnsmasq.d/lxd"
+
+systemctl restart dnsmasq
+
 #=================================================
 # GENERIC FINALIZATION
 #=================================================
