@@ -72,9 +72,12 @@ ynh_secure_remove --file="/usr/local/lib/$app"
 # Remove the log files
 ynh_secure_remove --file="/var/log/$app"
 
+ynh_secure_remove --file="/usr/local/bin/fuidshift"
 ynh_secure_remove --file="/usr/local/bin/lxc"
-ynh_secure_remove --file="/usr/local/bin/lxd"
 ynh_secure_remove --file="/usr/local/bin/lxc-to-lxd"
+ynh_secure_remove --file="/usr/local/bin/lxd"
+ynh_secure_remove --file="/usr/local/bin/lxd-agent"
+ynh_secure_remove --file="/usr/local/bin/lxd-benchmark"
 ynh_secure_remove --file="/usr/local/bin/lxd-p2c"
 ynh_secure_remove --file="/etc/bash_completion.d/lxd-client"
 
