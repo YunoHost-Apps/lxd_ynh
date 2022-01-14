@@ -72,9 +72,12 @@ ynh_restore_file --origin_path="/var/log/$app/"
 
 ynh_restore_file --origin_path="/usr/local/lib/$app/"
 
+ynh_restore_file --origin_path="/usr/local/bin/fuidshift"
 ynh_restore_file --origin_path="/usr/local/bin/lxc"
-ynh_restore_file --origin_path="/usr/local/bin/lxd"
 ynh_restore_file --origin_path="/usr/local/bin/lxc-to-lxd"
+ynh_restore_file --origin_path="/usr/local/bin/lxd"
+ynh_restore_file --origin_path="/usr/local/bin/lxd-agent"
+ynh_restore_file --origin_path="/usr/local/bin/lxd-benchmark"
 ynh_restore_file --origin_path="/usr/local/bin/lxd-p2c"
 ynh_restore_file --origin_path="/etc/bash_completion.d/lxd-client"
 
