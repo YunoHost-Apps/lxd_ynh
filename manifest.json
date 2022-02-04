@@ -7,6 +7,13 @@
     },
     "version": "4.22~ynh1",
     "url": "https://example.com",
+    "upstream": {
+        "license": "Apache-2.0",
+        "website": "https://linuxcontainers.org/lxd/",
+        "demo": "https://linuxcontainers.org/lxd/try-it/",
+        "admindoc": "https://linuxcontainers.org/lxd/docs/master/index.html",
+        "code": "https://github.com/lxc/lxd"
+    },
     "license": "Apache-2.0",
     "maintainer": {
         "name": "kay0u",
