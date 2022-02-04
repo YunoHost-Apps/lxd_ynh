@@ -26,6 +26,7 @@ Offers a user experience similar to virtual machines but using Linux containers 
 ## Configuration
 
 How to configure this app: In cli
+
 ## Documentation and resources
 
 * Official app website: https://linuxcontainers.org/lxd/

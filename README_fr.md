@@ -11,7 +11,7 @@ Si vous n'avez pas YunoHost, regardez [ici](https://yunohost.org/#/install) pour
 
 ## Vue d'ensemble
 
-
+Offre une expérience utilisateur similaire aux machines virtuelles mais en utilisant des conteneurs Linux à la place.
 
 **Version incluse :** 4.22~ynh1
 
@@ -22,6 +22,7 @@ Si vous n'avez pas YunoHost, regardez [ici](https://yunohost.org/#/install) pour
 ## Configuration
 
 How to configure this app: In cli
+
 ## Documentations et ressources
 
 * Site officiel de l'app : https://linuxcontainers.org/lxd/
