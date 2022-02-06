@@ -3,10 +3,18 @@
     "id": "lxd",
     "packaging_format": 1,
     "description": {
-        "en": "Offers a user experience similar to virtual machines but using Linux containers instead."
+        "en": "Offers a user experience similar to virtual machines but using Linux containers instead.",
+        "fr": "Offre une expérience utilisateur similaire aux machines virtuelles mais en utilisant des conteneurs Linux à la place."
     },
-    "version": "4.22~ynh1",
+    "version": "4.22~ynh2",
     "url": "https://example.com",
+    "upstream": {
+        "license": "Apache-2.0",
+        "website": "https://linuxcontainers.org/lxd/",
+        "demo": "https://linuxcontainers.org/lxd/try-it/",
+        "admindoc": "https://linuxcontainers.org/lxd/docs/master/index.html",
+        "code": "https://github.com/lxc/lxd"
+    },
     "license": "Apache-2.0",
     "maintainer": {
         "name": "kay0u",
