@@ -78,7 +78,8 @@ ynh_secure_remove --file="/usr/local/bin/lxc-to-lxd"
 ynh_secure_remove --file="/usr/local/bin/lxd"
 ynh_secure_remove --file="/usr/local/bin/lxd-agent"
 ynh_secure_remove --file="/usr/local/bin/lxd-benchmark"
-ynh_secure_remove --file="/usr/local/bin/lxd-p2c"
+ynh_secure_remove --file="/usr/local/bin/lxd-migrate"
+ynh_secure_remove --file="/usr/local/bin/lxd-user"
 ynh_secure_remove --file="/etc/bash_completion.d/lxd-client"
 
 sed -i "/# Added by lxd$/{N;/root:100000:65536/d}" /etc/sub{u,g}id
