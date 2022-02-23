@@ -23,11 +23,6 @@ ynh_script_progression --message="Ensuring downward compatibility..."
 
 sed -i "/root:1000000:65536 # Added by lxd#/d" /etc/sub{u,g}id
 
-# Remove old file
-if [ -f "/usr/local/bin/lxd-p2c" ]; then
-	ynh_secure_remove --file="/usr/local/bin/lxd-p2c"
-fi
-
 #=================================================
 # BACKUP BEFORE UPGRADE THEN ACTIVE TRAP
 #=================================================
@@ -45,6 +40,11 @@ ynh_clean_setup () {
 }
 # Exit if an error occurs during the execution of the script
 ynh_abort_if_errors
+
+# Remove old file
+if [ -f "/usr/local/bin/lxd-p2c" ]; then
+	ynh_secure_remove --file="/usr/local/bin/lxd-p2c"
+fi
 
 #=================================================
 # STANDARD UPGRADE STEPS
