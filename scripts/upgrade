@@ -41,6 +41,11 @@ ynh_clean_setup () {
 # Exit if an error occurs during the execution of the script
 ynh_abort_if_errors
 
+# Remove old file
+if [ -f "/usr/local/bin/lxd-p2c" ]; then
+	ynh_secure_remove --file="/usr/local/bin/lxd-p2c"
+fi
+
 #=================================================
 # STANDARD UPGRADE STEPS
 #=================================================
@@ -96,7 +101,7 @@ ynh_exec_warn_less make
 mkdir -p /usr/local/lib/$app
 mkdir -p /var/log/$app
 cp -a ${GOPATH}/{raft,dqlite}/.libs/lib*.so* /usr/local/lib/$app/
-cp ${GOPATH}/bin/{fuidshift,lxc,lxc-to-lxd,lxd,lxd-agent,lxd-benchmark,lxd-p2c} /usr/local/bin
+cp ${GOPATH}/bin/{fuidshift,lxc,lxc-to-lxd,lxd,lxd-agent,lxd-benchmark,lxd-migrate,lxd-user} /usr/local/bin
 cp ${lxd_tmp}/scripts/bash/lxd-client /etc/bash_completion.d/
 popd
 
