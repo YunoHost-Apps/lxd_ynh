@@ -17,7 +17,7 @@ If you don't have YunoHost, please consult [the guide](https://yunohost.org/#/in
 
 Offers a user experience similar to virtual machines but using Linux containers instead.
 
-**Shipped version:** 4.23~ynh1
+**Shipped version:** 4.24~ynh1
 
 **Demo:** https://linuxcontainers.org/lxd/try-it/
 
