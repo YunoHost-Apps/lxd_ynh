@@ -13,7 +13,7 @@ Si vous n'avez pas YunoHost, regardez [ici](https://yunohost.org/#/install) pour
 
 Offre une expérience utilisateur similaire aux machines virtuelles mais en utilisant des conteneurs Linux à la place.
 
-**Version incluse :** 4.24~ynh1
+**Version incluse :** 5.0.0~ynh1
 
 **Démo :** https://linuxcontainers.org/lxd/try-it/
 
