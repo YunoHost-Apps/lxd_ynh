@@ -1,0 +1,1 @@
+LXD est un gestionnaire de conteneurs système et de machines virtuelles de nouvelle génération. Il offre une expérience utilisateur unifiée autour de systèmes Linux complets fonctionnant dans des conteneurs ou des machines virtuelles.

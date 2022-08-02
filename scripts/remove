@@ -35,8 +35,19 @@ fi
 ynh_script_progression --message="Stopping and removing the systemd service..."
 
 # Remove the dedicated systemd config
-ynh_remove_systemd_socket_config
-ynh_exec_warn_less  ynh_remove_systemd_config
+ynh_exec_warn_less ynh_remove_systemd_socket_config
+ynh_exec_warn_less ynh_remove_systemd_config
+
+#=================================================
+# REMOVE CONTAINERS
+#=================================================
+
+# Remove the data directory if --purge option is used
+if [ "${YNH_APP_PURGE:-0}" -eq 1 ]
+then
+	ynh_script_progression --message="Removing containers..."
+	ynh_secure_remove --file="/var/lib/lxd"
+fi
 
 #=================================================
 # REMOVE DEPENDENCIES
@@ -61,6 +72,7 @@ fi
 #=================================================
 # REMOVE VARIOUS FILES
 #=================================================
+ynh_script_progression --message="Removing various files..."
 
 # Remove a directory securely
 ynh_secure_remove --file="/etc/ld.so.conf.d/$app.conf"
@@ -97,17 +109,6 @@ ynh_script_progression --message="Removing the dedicated system user..."
 
 # Delete a system user
 ynh_system_user_delete --username=$app
-
-#=================================================
-# REMOVE CONTAINERS
-#=================================================
-
-# Remove the data directory if --purge option is used
-if [ "${YNH_APP_PURGE:-0}" -eq 1 ]
-then
-	ynh_script_progression --message="Removing containers..."
-	ynh_secure_remove --file="/var/lib/lxd"
-fi
 
 #=================================================
 # END OF SCRIPT

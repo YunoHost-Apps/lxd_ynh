@@ -15,11 +15,16 @@ If you don't have YunoHost, please consult [the guide](https://yunohost.org/#/in
 
 ## Overview
 
-Offers a user experience similar to virtual machines but using Linux containers instead.
+LXD is a next generation system container and virtual machine manager. It offers a unified user experience around full Linux systems running inside containers or virtual machines.
 
 **Shipped version:** 5.3~ynh1
 
 **Demo:** https://linuxcontainers.org/lxd/try-it/
+
+## Screenshots
+
+![Screenshot of LXD](./doc/screenshots/LXD-logo.png)
+
 ## Disclaimers / important information
 
 ## Configuration
