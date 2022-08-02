@@ -17,13 +17,6 @@ ynh_script_progression --message="Loading installation settings..."
 app=$YNH_APP_INSTANCE_NAME
 
 #=================================================
-# ENSURE DOWNWARD COMPATIBILITY
-#=================================================
-ynh_script_progression --message="Ensuring downward compatibility..."
-
-sed -i "/root:1000000:65536 # Added by lxd#/d" /etc/sub{u,g}id
-
-#=================================================
 # BACKUP BEFORE UPGRADE THEN ACTIVE TRAP
 #=================================================
 ynh_script_progression --message="Backing up the app before upgrading (may take a while)..."
@@ -57,56 +50,11 @@ ynh_systemd_action --service_name="$app.socket" --action="stop"
 ynh_systemd_action --service_name=$app --action="stop" --log_path="/var/log/$app/$app.log"
 
 #=================================================
-# UPGRADE DEPENDENCIES
+# ENSURE DOWNWARD COMPATIBILITY
 #=================================================
-ynh_script_progression --message="Upgrading dependencies..."
+ynh_script_progression --message="Ensuring downward compatibility..."
 
-ynh_exec_warn_less ynh_install_app_dependencies $pkg_dependencies
-
-#=================================================
-# DOWNLOAD, CHECK AND UNPACK SOURCE
-#=================================================
-ynh_script_progression --message="Setting up source files..."
-
-# Download, check integrity, uncompress and patch the source from app.src
-go_tmp=$(mktemp -d)
-ynh_setup_source --dest_dir="$go_tmp" --source_id="go.$(ynh_detect_arch)"
-
-export PATH=$go_tmp/bin:$PATH
-
-lxd_tmp=$(mktemp -d)
-ynh_setup_source --dest_dir="$lxd_tmp" --source_id="lxd"
-
-export GOPATH=${lxd_tmp}/vendor/
-
-#=================================================
-# BUILD FROM SOURCES
-#=================================================
-ynh_script_progression --message="Building lxd from sources..." --weight=60
-
-pushd ${lxd_tmp}
-
-export HOME=${HOME:-"/root/"}
-
-ynh_exec_warn_less make deps
-export CGO_CFLAGS="-I${GOPATH}/raft/include/ -I${GOPATH}/dqlite/include/"
-export CGO_LDFLAGS="-L${GOPATH}/raft/.libs -L${GOPATH}/dqlite/.libs/"
-export LD_LIBRARY_PATH="${GOPATH}/raft/.libs/:${GOPATH}/dqlite/.libs/"
-export CGO_LDFLAGS_ALLOW="(-Wl,-wrap,pthread_create)|(-Wl,-z,now)"
-
-export GOCACHE=$go_tmp
-
-ynh_exec_warn_less make
-
-mkdir -p /usr/local/lib/$app
-mkdir -p /var/log/$app
-cp -a ${GOPATH}/{raft,dqlite}/.libs/lib*.so* /usr/local/lib/$app/
-cp ${GOPATH}/bin/{fuidshift,lxc,lxc-to-lxd,lxd,lxd-agent,lxd-benchmark,lxd-migrate,lxd-user} /usr/local/bin
-cp ${lxd_tmp}/scripts/bash/lxd-client /etc/bash_completion.d/
-popd
-
-ynh_secure_remove --file="$go_tmp"
-ynh_secure_remove --file="$lxd_tmp"
+sed -i "/root:1000000:65536 # Added by lxd#/d" /etc/sub{u,g}id
 
 #=================================================
 # CREATE DEDICATED USER
@@ -117,19 +65,62 @@ ynh_script_progression --message="Making sure dedicated system user exists..."
 ynh_system_user_create --username=$app
 
 #=================================================
+# DOWNLOAD, CHECK AND UNPACK SOURCE
+#=================================================
+ynh_script_progression --message="Setting up source files..."
+
+# Download, check integrity, uncompress and patch the source from app.src
+go_tmp=$(mktemp -d)
+ynh_setup_source --dest_dir="$go_tmp" --source_id="go.$YNH_ARCH"
+
+export PATH=$go_tmp/bin:$PATH
+
+lxd_tmp=$(mktemp -d)
+ynh_setup_source --dest_dir="$lxd_tmp" --source_id="lxd"
+
+export GOPATH=${lxd_tmp}/vendor/
+
+#=================================================
+# UPGRADE DEPENDENCIES
+#=================================================
+ynh_script_progression --message="Upgrading dependencies..."
+
+ynh_exec_warn_less ynh_install_app_dependencies $pkg_dependencies
+
+#=================================================
 # SPECIFIC UPGRADE
 #=================================================
-# SETUP SYSTEMD
+# BUILD FROM SOURCES
 #=================================================
-ynh_script_progression --message="Configuring a systemd service..."
+ynh_script_progression --message="Building lxd from sources..." --weight=60
 
-# Create a dedicated systemd config
-ynh_add_systemd_socket_config
-ynh_add_systemd_config
+pushd ${lxd_tmp}
+	export HOME=${HOME:-"/root/"}
+
+	ynh_exec_warn_less make deps
+	export CGO_CFLAGS="-I${GOPATH}/raft/include/ -I${GOPATH}/dqlite/include/"
+	export CGO_LDFLAGS="-L${GOPATH}/raft/.libs -L${GOPATH}/dqlite/.libs/"
+	export LD_LIBRARY_PATH="${GOPATH}/raft/.libs/:${GOPATH}/dqlite/.libs/"
+	export CGO_LDFLAGS_ALLOW="(-Wl,-wrap,pthread_create)|(-Wl,-z,now)"
+
+	export GOCACHE=$go_tmp
+
+	ynh_exec_warn_less make
+
+	mkdir -p /usr/local/lib/$app
+	mkdir -p /var/log/$app
+	cp -a ${GOPATH}/{raft,dqlite}/.libs/lib*.so* /usr/local/lib/$app/
+	cp ${GOPATH}/bin/{fuidshift,lxc,lxc-to-lxd,lxd,lxd-agent,lxd-benchmark,lxd-migrate,lxd-user} /usr/local/bin
+	cp ${lxd_tmp}/scripts/bash/lxd-client /etc/bash_completion.d/
+popd
+
+ynh_secure_remove --file="$go_tmp"
+ynh_secure_remove --file="$lxd_tmp"
 
 #=================================================
-# MODIFY A CONFIG FILE
+# UPDATE A CONFIG FILE
 #=================================================
+ynh_script_progression --message="Updating a configuration file..."
 
 ynh_backup_if_checksum_is_different --file="/etc/dnsmasq.d/lxd"
 
@@ -151,6 +142,15 @@ echo "# Added by lxd
 root:100000:65536" | tee -a /etc/subuid /etc/subgid
 
 #=================================================
+# SETUP SYSTEMD
+#=================================================
+ynh_script_progression --message="Upgrading systemd configuration..."
+
+# Create a dedicated systemd config
+ynh_add_systemd_socket_config
+ynh_add_systemd_config
+
+#=================================================
 # GENERIC FINALIZATION
 #=================================================
 # INTEGRATE SERVICE IN YUNOHOST
@@ -164,7 +164,6 @@ yunohost service add $app --log="/var/log/$app/$app.log"
 #=================================================
 ynh_script_progression --message="Starting a systemd service..."
 
-# Start a systemd service
 ynh_systemd_action --service_name=$app --action="start" --log_path="/var/log/$app/$app.log"
 
 #=================================================

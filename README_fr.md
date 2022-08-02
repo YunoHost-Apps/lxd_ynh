@@ -15,16 +15,22 @@ Si vous n'avez pas YunoHost, regardez [ici](https://yunohost.org/#/install) pour
 
 ## Vue d'ensemble
 
-Offre une expérience utilisateur similaire aux machines virtuelles mais en utilisant des conteneurs Linux à la place.
+LXD est un gestionnaire de conteneurs système et de machines virtuelles de nouvelle génération. Il offre une expérience utilisateur unifiée autour de systèmes Linux complets fonctionnant dans des conteneurs ou des machines virtuelles.
 
-**Version incluse :** 5.3~ynh1
+
+**Version incluse :** 5.4~ynh1
 
 **Démo :** https://linuxcontainers.org/lxd/try-it/
+
+## Captures d'écran
+
+![Capture d'écran de LXD](./doc/screenshots/LXD-logo.png)
+
 ## Avertissements / informations importantes
 
 ## Configuration
 
-How to configure this app: In cli
+Comment configurer cette application : en cli
 
 ## Documentations et ressources
 

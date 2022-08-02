@@ -43,13 +43,21 @@ ynh_script_progression --message="Installing dependencies..." --weight=30
 ynh_exec_warn_less ynh_install_app_dependencies $pkg_dependencies
 
 #=================================================
+# CREATE DEDICATED USER
+#=================================================
+ynh_script_progression --message="Configuring system user..."
+
+# Create a system user
+ynh_system_user_create --username=$app
+
+#=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
 #=================================================
 ynh_script_progression --message="Setting up source files..." --weight=5
 
 # Download, check integrity, uncompress and patch the source from app.src
 go_tmp=$(mktemp -d)
-ynh_setup_source --dest_dir="$go_tmp" --source_id="go.$(ynh_detect_arch)"
+ynh_setup_source --dest_dir="$go_tmp" --source_id="go.$YNH_ARCH"
 
 export PATH=$go_tmp/bin:$PATH
 
@@ -59,54 +67,37 @@ ynh_setup_source --dest_dir="$lxd_tmp" --source_id="lxd"
 export GOPATH=${lxd_tmp}/vendor/
 
 #=================================================
+# SPECIFIC SETUP
+#=================================================
 # BUILD FROM SOURCES
 #=================================================
 ynh_script_progression --message="Building lxd from sources..." --weight=60
 
 pushd ${lxd_tmp}
+	export HOME=${HOME:-"/root/"}
 
-export HOME=${HOME:-"/root/"}
+	ynh_exec_warn_less make deps
+	export CGO_CFLAGS="-I${GOPATH}/raft/include/ -I${GOPATH}/dqlite/include/"
+	export CGO_LDFLAGS="-L${GOPATH}/raft/.libs -L${GOPATH}/dqlite/.libs/"
+	export LD_LIBRARY_PATH="${GOPATH}/raft/.libs/:${GOPATH}/dqlite/.libs/"
+	export CGO_LDFLAGS_ALLOW="(-Wl,-wrap,pthread_create)|(-Wl,-z,now)"
 
-ynh_exec_warn_less make deps
-export CGO_CFLAGS="-I${GOPATH}/raft/include/ -I${GOPATH}/dqlite/include/"
-export CGO_LDFLAGS="-L${GOPATH}/raft/.libs -L${GOPATH}/dqlite/.libs/"
-export LD_LIBRARY_PATH="${GOPATH}/raft/.libs/:${GOPATH}/dqlite/.libs/"
-export CGO_LDFLAGS_ALLOW="(-Wl,-wrap,pthread_create)|(-Wl,-z,now)"
+	ynh_exec_warn_less make
 
-ynh_exec_warn_less make
-
-mkdir -p /usr/local/lib/$app
-mkdir -p /var/log/$app
-cp -a ${GOPATH}/{raft,dqlite}/.libs/lib*.so* /usr/local/lib/$app/
-cp ${GOPATH}/bin/{fuidshift,lxc,lxc-to-lxd,lxd,lxd-agent,lxd-benchmark,lxd-migrate,lxd-user} /usr/local/bin
-cp ${lxd_tmp}/scripts/bash/lxd-client /etc/bash_completion.d/
+	mkdir -p /usr/local/lib/$app
+	mkdir -p /var/log/$app
+	cp -a ${GOPATH}/{raft,dqlite}/.libs/lib*.so* /usr/local/lib/$app/
+	cp ${GOPATH}/bin/{fuidshift,lxc,lxc-to-lxd,lxd,lxd-agent,lxd-benchmark,lxd-migrate,lxd-user} /usr/local/bin
+	cp ${lxd_tmp}/scripts/bash/lxd-client /etc/bash_completion.d/
 popd
 
 ynh_secure_remove --file="$go_tmp"
 ynh_secure_remove --file="$lxd_tmp"
 
 #=================================================
-# CREATE DEDICATED USER
+# ADD A CONFIGURATION
 #=================================================
-ynh_script_progression --message="Configuring system user..."
-
-# Create a system user
-ynh_system_user_create --username=$app
-
-#=================================================
-# SPECIFIC SETUP
-#=================================================
-# SETUP SYSTEMD
-#=================================================
-ynh_script_progression --message="Configuring a systemd service..."
-
-# Create a dedicated systemd config
-ynh_add_systemd_socket_config
-ynh_add_systemd_config
-
-#=================================================
-# MODIFY A CONFIG FILE
-#=================================================
+ynh_script_progression --message="Adding a configuration file..."
 
 echo "bind-interfaces
 except-interface=lxdbr0" > /etc/dnsmasq.d/lxd
@@ -122,6 +113,15 @@ ldconfig
 
 echo "# Added by lxd
 root:100000:65536" | tee -a /etc/subuid /etc/subgid
+
+#=================================================
+# SETUP SYSTEMD
+#=================================================
+ynh_script_progression --message="Configuring a systemd service..."
+
+# Create a dedicated systemd config
+ynh_add_systemd_socket_config
+ynh_add_systemd_config
 
 #=================================================
 # GENERIC FINALIZATION
