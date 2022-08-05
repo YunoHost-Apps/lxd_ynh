@@ -95,6 +95,53 @@ echo "... conf/$src.src updated"
 done
 
 #=================================================
+# Update Go
+#=================================================
+go_url="https://go.dev/dl/?mode=json"
+
+go_version=$(curl --silent "$go_url" | jq -r '.[] | .version' | sort -V | tail -1)
+go_arch=($(curl --silent "$go_url" | jq -r '.[] | select(.version=="'$go_version'") | .files[] | select(.os == "linux") | .arch'))
+for arch in "${go_arch[@]}"
+do
+  filename=$(curl --silent "$go_url" | jq -r '.[] | select(.version=="'$go_version'") | .files[] | select(.os == "linux") | select(.arch == "'$arch'") | .filename')
+  checksum=$(curl --silent "$go_url" | jq -r '.[] | select(.version=="'$go_version'") | .files[] | select(.os == "linux") | select(.arch == "'$arch'") | .sha256')
+  case $arch in
+    *"amd64"*)
+      src="amd64"
+      ;;
+    *"386"*)
+      src="i386"
+      ;;
+    *"arm64"*)
+    src="arm64"
+    ;;
+    *"armv6l"*)
+      src="arm"
+      ;;
+    *)
+      src=""
+      ;;
+  esac
+
+  if [ -z "$src" ]; then
+    continue
+  fi
+
+  # Rewrite source file
+  cat <<EOT > conf/go.$src.src
+SOURCE_URL=https://go.dev/dl/$filename
+SOURCE_SUM=$checksum
+SOURCE_SUM_PRG=sha256sum
+SOURCE_FORMAT=tar.gz
+SOURCE_IN_SUBDIR=true
+SOURCE_FILENAME=
+SOURCE_EXTRACT=true
+EOT
+  echo "... conf/go.$src.src updated"
+
+done
+
+#=================================================
 # SPECIFIC UPDATE STEPS
 #=================================================
 
