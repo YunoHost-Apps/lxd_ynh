@@ -4,7 +4,7 @@
 		pkg_linter=1
 		setup_nourl=1
 		upgrade=1
-		upgrade=1 from_commit=cb39602175d6fe3f13335c33c6c9276f7aa980a2
+		upgrade=1 from_commit=83aeda1861d82286ec5cea8417537ce5a1062685
 		backup_restore=1
 ;;; Options
 Email=
