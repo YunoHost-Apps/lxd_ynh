@@ -19,6 +19,7 @@ LXD is a next generation system container and virtual machine manager. It offers
 
 **Shipped version:** 5.7~ynh1
 
+
 **Demo:** https://linuxcontainers.org/lxd/try-it/
 
 ## Screenshots
