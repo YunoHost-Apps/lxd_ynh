@@ -20,7 +20,6 @@ LXD est un gestionnaire de conteneurs système et de machines virtuelles de nouv
 
 **Version incluse :** 5.7~ynh1
 
-
 **Démo :** https://linuxcontainers.org/lxd/try-it/
 
 ## Captures d'écran
