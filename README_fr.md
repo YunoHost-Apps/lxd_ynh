@@ -18,7 +18,7 @@ Si vous n'avez pas YunoHost, regardez [ici](https://yunohost.org/#/install) pour
 LXD est un gestionnaire de conteneurs système et de machines virtuelles de nouvelle génération. Il offre une expérience utilisateur unifiée autour de systèmes Linux complets fonctionnant dans des conteneurs ou des machines virtuelles.
 
 
-**Version incluse :** 5.7~ynh1
+**Version incluse :** 5.8~ynh1
 
 **Démo :** https://linuxcontainers.org/lxd/try-it/
 
