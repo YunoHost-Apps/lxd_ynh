@@ -5,26 +5,27 @@ It shall NOT be edited by hand.
 
 # LXD pour YunoHost
 
-[![Niveau d'intégration](https://dash.yunohost.org/integration/lxd.svg)](https://dash.yunohost.org/appci/app/lxd) ![Statut du fonctionnement](https://ci-apps.yunohost.org/ci/badges/lxd.status.svg) ![Statut de maintenance](https://ci-apps.yunohost.org/ci/badges/lxd.maintain.svg)  
+[![Niveau d’intégration](https://dash.yunohost.org/integration/lxd.svg)](https://dash.yunohost.org/appci/app/lxd) ![Statut du fonctionnement](https://ci-apps.yunohost.org/ci/badges/lxd.status.svg) ![Statut de maintenance](https://ci-apps.yunohost.org/ci/badges/lxd.maintain.svg)
+
 [![Installer LXD avec YunoHost](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=lxd)
 
 *[Read this readme in english.](./README.md)*
 
-> *Ce package vous permet d'installer LXD rapidement et simplement sur un serveur YunoHost.
-Si vous n'avez pas YunoHost, regardez [ici](https://yunohost.org/#/install) pour savoir comment l'installer et en profiter.*
+> *Ce package vous permet d’installer LXD rapidement et simplement sur un serveur YunoHost.
+Si vous n’avez pas YunoHost, regardez [ici](https://yunohost.org/#/install) pour savoir comment l’installer et en profiter.*
 
-## Vue d'ensemble
+## Vue d’ensemble
 
 LXD est un gestionnaire de conteneurs système et de machines virtuelles de nouvelle génération. Il offre une expérience utilisateur unifiée autour de systèmes Linux complets fonctionnant dans des conteneurs ou des machines virtuelles.
 
 
-**Version incluse :** 5.10~ynh1
+**Version incluse :** 5.11~ynh1
 
 **Démo :** https://linuxcontainers.org/lxd/try-it/
 
-## Captures d'écran
+## Captures d’écran
 
-![Capture d'écran de LXD](./doc/screenshots/LXD-logo.png)
+![Capture d’écran de LXD](./doc/screenshots/LXD-logo.png)
 
 ## Avertissements / informations importantes
 
@@ -34,9 +35,9 @@ Comment configurer cette application : en cli
 
 ## Documentations et ressources
 
-* Site officiel de l'app : <https://linuxcontainers.org/lxd/>
-* Documentation officielle de l'admin : <https://linuxcontainers.org/lxd/docs/master/index.html>
-* Dépôt de code officiel de l'app : <https://github.com/lxc/lxd>
+* Site officiel de l’app : <https://linuxcontainers.org/lxd/>
+* Documentation officielle de l’admin : <https://linuxcontainers.org/lxd/docs/master/index.html>
+* Dépôt de code officiel de l’app : <https://github.com/lxc/lxd>
 * Documentation YunoHost pour cette app : <https://yunohost.org/app_lxd>
 * Signaler un bug : <https://github.com/YunoHost-Apps/lxd_ynh/issues>
 
@@ -52,4 +53,4 @@ ou
 sudo yunohost app upgrade lxd -u https://github.com/YunoHost-Apps/lxd_ynh/tree/testing --debug
 ```
 
-**Plus d'infos sur le packaging d'applications :** <https://yunohost.org/packaging_apps>
+**Plus d’infos sur le packaging d’applications :** <https://yunohost.org/packaging_apps>
