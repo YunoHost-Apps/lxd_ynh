@@ -1,5 +1,5 @@
-SOURCE_URL=https://go.dev/dl/go1.20.4.linux-armv6l.tar.gz
-SOURCE_SUM=0b75ca23061a9996840111f5f19092a1bdbc42ec1ae25237ed2eec1c838bd819
+SOURCE_URL=https://go.dev/dl/go1.20.5.linux-armv6l.tar.gz
+SOURCE_SUM=79d8210efd4390569912274a98dffc16eb85993cccdeef4d704e9b0dfd50743a
 SOURCE_SUM_PRG=sha256sum
 SOURCE_FORMAT=tar.gz
 SOURCE_IN_SUBDIR=true
