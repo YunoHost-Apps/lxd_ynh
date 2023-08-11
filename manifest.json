@@ -13,7 +13,7 @@
         "website": "https://linuxcontainers.org/lxd/",
         "demo": "https://linuxcontainers.org/lxd/try-it/",
         "admindoc": "https://linuxcontainers.org/lxd/docs/master/index.html",
-        "code": "https://github.com/lxc/lxd"
+        "code": "https://github.com/canonical/lxd"
     },
     "license": "Apache-2.0",
     "maintainer": {
