@@ -10,13 +10,6 @@ source _common.sh
 source /usr/share/yunohost/helpers
 
 #=================================================
-# LOAD SETTINGS
-#=================================================
-#REMOVEME? ynh_script_progression --message="Loading installation settings..."
-
-#REMOVEME? app=$YNH_APP_INSTANCE_NAME
-
-#=================================================
 # STANDARD REMOVE
 #=================================================
 # REMOVE SERVICE INTEGRATION IN YUNOHOST
@@ -48,14 +41,6 @@ then
 	ynh_script_progression --message="Removing containers..."
 	ynh_secure_remove --file="/var/lib/lxd"
 fi
-
-#=================================================
-# REMOVE DEPENDENCIES
-#=================================================
-#REMOVEME? ynh_script_progression --message="Removing dependencies..." --weight=20
-
-# Remove metapackage and its dependencies
-#REMOVEME? ynh_exec_warn_less  ynh_remove_app_dependencies
 
 #=================================================
 # CLOSE A PORT
@@ -99,16 +84,6 @@ sed -i "/# Added by lxd$/{N;/root:100000:65536/d}" /etc/sub{u,g}id
 ynh_secure_remove --file="/etc/dnsmasq.d/lxd"
 
 systemctl restart dnsmasq
-
-#=================================================
-# GENERIC FINALIZATION
-#=================================================
-# REMOVE DEDICATED USER
-#=================================================
-#REMOVEME? ynh_script_progression --message="Removing the dedicated system user..."
-
-# Delete a system user
-#REMOVEME? ynh_system_user_delete --username=$app
 
 #=================================================
 # END OF SCRIPT

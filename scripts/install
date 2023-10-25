@@ -13,42 +13,12 @@ source /usr/share/yunohost/helpers
 # MANAGE SCRIPT FAILURE
 #=================================================
 
-#REMOVEME? ynh_clean_setup () {
+ynh_clean_setup () {
 	ynh_exec_warn_less popd
 
 	ynh_secure_remove --file="$go_tmp"
 	ynh_secure_remove --file="$lxd_tmp"
 }
-# Exit if an error occurs during the execution of the script
-#REMOVEME? ynh_abort_if_errors
-
-#=================================================
-# RETRIEVE ARGUMENTS FROM THE MANIFEST
-#=================================================
-
-#REMOVEME? app=$YNH_APP_INSTANCE_NAME
-
-#=================================================
-# STORE SETTINGS FROM MANIFEST
-#=================================================
-#REMOVEME? ynh_script_progression --message="Storing installation settings..."
-
-#=================================================
-# STANDARD MODIFICATIONS
-#=================================================
-# INSTALL DEPENDENCIES
-#=================================================
-#REMOVEME? ynh_script_progression --message="Installing dependencies..." --weight=30
-
-#REMOVEME? ynh_exec_warn_less ynh_install_app_dependencies $pkg_dependencies
-
-#=================================================
-# CREATE DEDICATED USER
-#=================================================
-#REMOVEME? ynh_script_progression --message="Configuring system user..."
-
-# Create a system user
-#REMOVEME? ynh_system_user_create --username=$app
 
 #=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
@@ -57,7 +27,7 @@ ynh_script_progression --message="Setting up source files..." --weight=5
 
 # Download, check integrity, uncompress and patch the source from app.src
 go_tmp=$(mktemp -d)
-ynh_setup_source --dest_dir="$go_tmp" --source_id="go.$YNH_ARCH"
+ynh_setup_source --dest_dir="$go_tmp"
 
 export PATH=$go_tmp/bin:$PATH
 

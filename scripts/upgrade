@@ -10,29 +10,9 @@ source _common.sh
 source /usr/share/yunohost/helpers
 
 #=================================================
-# LOAD SETTINGS
-#=================================================
-#REMOVEME? ynh_script_progression --message="Loading installation settings..."
-
-#REMOVEME? app=$YNH_APP_INSTANCE_NAME
-
-#=================================================
 # BACKUP BEFORE UPGRADE THEN ACTIVE TRAP
 #=================================================
-#REMOVEME? ynh_script_progression --message="Backing up the app before upgrading (may take a while)..."
-
-# Backup the current version of the app
-#REMOVEME? ynh_backup_before_upgrade
-#REMOVEME? ynh_clean_setup () {
-	ynh_exec_warn_less popd
-
-	ynh_secure_remove --file="$go_tmp"
-	ynh_secure_remove --file="$lxd_tmp"
-	# Restore it if the upgrade fails
-#REMOVEME? 	ynh_restore_upgradebackup
-}
-# Exit if an error occurs during the execution of the script
-#REMOVEME? ynh_abort_if_errors
+ynh_script_progression --message="Backing up the app before upgrading (may take a while)..."
 
 # Remove old file
 if [ -f "/usr/local/bin/lxd-p2c" ]; then
@@ -57,14 +37,6 @@ ynh_script_progression --message="Ensuring downward compatibility..."
 sed -i "/root:1000000:65536 # Added by lxd#/d" /etc/sub{u,g}id
 
 #=================================================
-# CREATE DEDICATED USER
-#=================================================
-#REMOVEME? ynh_script_progression --message="Making sure dedicated system user exists..."
-
-# Create a dedicated user (if not existing)
-#REMOVEME? ynh_system_user_create --username=$app
-
-#=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
 #=================================================
 ynh_script_progression --message="Setting up source files..."
@@ -79,13 +51,6 @@ lxd_tmp=$(mktemp -d)
 ynh_setup_source --dest_dir="$lxd_tmp" --source_id="lxd"
 
 export GOPATH=${lxd_tmp}/vendor/
-
-#=================================================
-# UPGRADE DEPENDENCIES
-#=================================================
-#REMOVEME? ynh_script_progression --message="Upgrading dependencies..."
-
-#REMOVEME? ynh_exec_warn_less ynh_install_app_dependencies $pkg_dependencies
 
 #=================================================
 # SPECIFIC UPGRADE
