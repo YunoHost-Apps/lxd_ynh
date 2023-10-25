@@ -5,7 +5,7 @@
 #=================================================
 
 # dependencies used by the app
-pkg_dependencies="acl attr autoconf dnsmasq-base git libacl1-dev libcap-dev liblxc1 lxc-dev libsqlite3-dev libtool libudev-dev liblz4-dev libuv1-dev make pkg-config rsync squashfs-tools tar tcl xz-utils ebtables libapparmor-dev libseccomp-dev libcap-dev lvm2 thin-provisioning-tools btrfs-progs busybox|busybox-static libattr1-dev libuv1 libdevmapper-event1.02.1 dmeventd lxc tcl8.6"
+#REMOVEME? pkg_dependencies="acl attr autoconf dnsmasq-base git libacl1-dev libcap-dev liblxc1 lxc-dev libsqlite3-dev libtool libudev-dev liblz4-dev libuv1-dev make pkg-config rsync squashfs-tools tar tcl xz-utils ebtables libapparmor-dev libseccomp-dev libcap-dev lvm2 thin-provisioning-tools btrfs-progs busybox|busybox-static libattr1-dev libuv1 libdevmapper-event1.02.1 dmeventd lxc tcl8.6"
 
 #=================================================
 # PERSONAL HELPERS
@@ -25,7 +25,7 @@ pkg_dependencies="acl attr autoconf dnsmasq-base git libacl1-dev libcap-dev libl
 # this helper :
 #
 #   __APP__       by  $app
-#   __FINALPATH__ by  $final_path
+#   __INSTALL_DIR__ by  $install_dir
 #
 # And dynamic variables (from the last example) :
 #   __VAR_1__    by $var_1
@@ -50,8 +50,8 @@ ynh_add_systemd_socket_config () {
 
     # To avoid a break by set -u, use a void substitution ${var:-}. If the variable is not set, it's simply set with an empty variable.
     # Substitute in a nginx config file only if the variable is not empty
-    if [ -n "${final_path:-}" ]; then
-        ynh_replace_string --match_string="__FINALPATH__" --replace_string="$final_path" --target_file="$finalsystemdconf"
+    if [ -n "${install_dir:-}" ]; then
+        ynh_replace_string --match_string="__INSTALL_DIR__" --replace_string="$install_dir" --target_file="$finalsystemdconf"
     fi
     if [ -n "${app:-}" ]; then
         ynh_replace_string --match_string="__APP__" --replace_string="$app" --target_file="$finalsystemdconf"

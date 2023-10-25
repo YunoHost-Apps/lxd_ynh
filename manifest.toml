@@ -1,0 +1,60 @@
+packaging_format = 2
+
+id = "lxd"
+name = "LXD"
+description.en = "Offers a user experience similar to virtual machines but using Linux containers instead."
+description.fr = "Offre une expérience utilisateur similaire aux machines virtuelles mais en utilisant des conteneurs Linux à la place."
+
+version = "5.17~ynh1"
+
+maintainers = ["kay0u"]
+
+[upstream]
+license = "Apache-2.0"
+website = "https://linuxcontainers.org/lxd/"
+demo = "https://linuxcontainers.org/lxd/try-it/"
+admindoc = "https://linuxcontainers.org/lxd/docs/master/index.html"
+code = "https://github.com/canonical/lxd"
+cpe = "???" # FIXME: optional but recommended if relevant, this is meant to contain the Common Platform Enumeration, which is sort of a standard id for applications defined by the NIST. In particular, Yunohost may use this is in the future to easily track CVE (=security reports) related to apps. The CPE may be obtained by searching here: https://nvd.nist.gov/products/cpe/search. For example, for Nextcloud, the CPE is 'cpe:2.3:a:nextcloud:nextcloud' (no need to include the version number)
+fund = "???" # FIXME: optional but recommended (or remove if irrelevant / not applicable). This is meant to be an URL where people can financially support this app, especially when its development is based on volunteers and/or financed by its community. YunoHost may later advertise it in the webadmin.
+
+[integration]
+yunohost = ">= 4.3.0"
+architectures = "all" # FIXME: can be replaced by a list of supported archs using the dpkg --print-architecture nomenclature (amd64/i386/armhf/arm64), for example: ["amd64", "i386"]
+multi_instance = false
+ldap = "?" # FIXME: replace with true, false, or "not_relevant". Not to confuse with the "sso" key : the "ldap" key corresponds to wether or not a user *can* login on the app using its YunoHost credentials.
+sso = "?" # FIXME: replace with true, false, or "not_relevant". Not to confuse with the "ldap" key : the "sso" key corresponds to wether or not a user is *automatically logged-in* on the app when logged-in on the YunoHost portal.
+disk = "50M" # FIXME: replace with an **estimate** minimum disk requirement. e.g. 20M, 400M, 1G, ...
+ram.build = "50M" # FIXME: replace with an **estimate** minimum ram requirement. e.g. 50M, 400M, 1G, ...
+ram.runtime = "50M" # FIXME: replace with an **estimate** minimum ram requirement. e.g. 50M, 400M, 1G, ...
+
+[install]
+
+[resources]
+    [resources.sources]
+        [resources.sources."go.arm"]
+        url = "https://go.dev/dl/go1.21.0.linux-armv6l.tar.gz"
+        sha256 = "e377a0004957c8c560a3ff99601bce612330a3d95ba3b0a2ae144165fc87deb1"
+
+        [resources.sources.lxd]
+        url = "https://github.com/canonical/lxd/releases/download/lxd-5.17/lxd-5.17.tar.gz"
+        sha256 = "db5a70f10f14623bb175a2b3357a136a7c71c933515d76ee7ab2193c840ae328"
+
+        [resources.sources."go.amd64"]
+        url = "https://go.dev/dl/go1.21.0.linux-amd64.tar.gz"
+        sha256 = "d0398903a16ba2232b389fb31032ddf57cac34efda306a0eebac34f0965a0742"
+
+        [resources.sources."go.i386"]
+        url = "https://go.dev/dl/go1.21.0.linux-386.tar.gz"
+        sha256 = "0e6f378d9b072fab0a3d9ff4d5e990d98487d47252dba8160015a61e6bd0bcba"
+
+        [resources.sources."go.arm64"]
+        url = "https://go.dev/dl/go1.21.0.linux-arm64.tar.gz"
+        sha256 = "f3d4548edf9b22f26bbd49720350bbfe59d75b7090a1a2bff1afad8214febaf3"
+
+
+    [resources.system_user]
+
+    [resources.install_dir]
+
+    [resources.permissions]
