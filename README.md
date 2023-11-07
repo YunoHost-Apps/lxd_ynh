@@ -18,7 +18,7 @@ If you don't have YunoHost, please consult [the guide](https://yunohost.org/#/in
 
 LXD is a next generation system container and virtual machine manager. It offers a unified user experience around full Linux systems running inside containers or virtual machines.
 
-**Shipped version:** 5.17~ynh1
+**Shipped version:** 5.19~ynh1
 
 **Demo:** https://linuxcontainers.org/lxd/try-it/
 
@@ -37,7 +37,6 @@ How to configure this app: In cli
 * Official app website: <https://linuxcontainers.org/lxd/>
 * Official admin documentation: <https://linuxcontainers.org/lxd/docs/master/index.html>
 * Upstream app code repository: <https://github.com/canonical/lxd>
-* YunoHost documentation for this app: <https://yunohost.org/app_lxd>
 * Report a bug: <https://github.com/YunoHost-Apps/lxd_ynh/issues>
 
 ## Developer info
