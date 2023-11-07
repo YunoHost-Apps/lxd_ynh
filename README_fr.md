@@ -38,6 +38,7 @@ Comment configurer cette application : en cli
 * Site officiel de l’app : <https://linuxcontainers.org/lxd/>
 * Documentation officielle de l’admin : <https://linuxcontainers.org/lxd/docs/master/index.html>
 * Dépôt de code officiel de l’app : <https://github.com/canonical/lxd>
+* YunoHost Store: <https://apps.yunohost.org/app/lxd>
 * Signaler un bug : <https://github.com/YunoHost-Apps/lxd_ynh/issues>
 
 ## Informations pour les développeurs
