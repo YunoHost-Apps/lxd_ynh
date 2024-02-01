@@ -84,7 +84,7 @@ ram.runtime = "50M" # FIXME: replace with an **estimate** minimum ram requiremen
         "lvm2",
         "thin-provisioning-tools",
         "btrfs-progs",
-        "busybox|busybox-static",
+        "busybox",
         "libattr1-dev",
         "libuv1",
         "libdevmapper-event1.02.1",
