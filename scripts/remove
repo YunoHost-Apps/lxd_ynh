@@ -23,6 +23,12 @@ fi
 ynh_exec_warn_less ynh_remove_systemd_socket_config
 ynh_exec_warn_less ynh_remove_systemd_config
 
+_ynh_remove_ld_so
+
+_ynh_unset_subuid_subgid
+
+_ynh_remove_dnsmasq
+
 #=================================================
 # REMOVE CONTAINERS
 #=================================================
@@ -47,10 +53,6 @@ fi
 #=================================================
 ynh_script_progression --message="Removing various files..."
 
-# Remove a directory securely
-ynh_secure_remove --file="/etc/ld.so.conf.d/$app.conf"
-ldconfig
-
 ynh_secure_remove --file="/usr/local/lib/$app"
 
 # Remove the log files
@@ -65,12 +67,6 @@ ynh_secure_remove --file="/usr/local/bin/lxd-benchmark"
 ynh_secure_remove --file="/usr/local/bin/lxd-migrate"
 ynh_secure_remove --file="/usr/local/bin/lxd-user"
 ynh_secure_remove --file="/etc/bash_completion.d/lxd-client"
-
-sed -i "/# Added by lxd$/{N;/root:100000:65536/d}" /etc/sub{u,g}id
-
-ynh_secure_remove --file="/etc/dnsmasq.d/lxd"
-
-systemctl restart dnsmasq
 
 #=================================================
 # END OF SCRIPT

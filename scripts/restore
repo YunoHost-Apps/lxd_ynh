@@ -11,6 +11,25 @@ source ../settings/scripts/_common.sh
 source /usr/share/yunohost/helpers
 
 #=================================================
+# RESTORE SYSTEM CONFIGURATIONS
+#=================================================
+ynh_script_progression --message="Restoring system configurations related to $app..." --weight=1
+
+ynh_restore_file --origin_path="/etc/systemd/system/$app.service"
+ynh_restore_file --origin_path="/etc/systemd/system/$app.socket"
+systemctl enable "$app.service" --quiet
+
+yunohost service add "$app" --log="/var/log/$app/$app.log"
+
+ynh_restore_file --origin_path="/etc/dnsmasq.d/lxd"
+systemctl restart dnsmasq
+
+ynh_restore_file --origin_path="/etc/ld.so.conf.d/$app.conf"
+ldconfig
+
+_ynh_set_subuid_subgid
+
+#=================================================
 # RESTORE VARIOUS FILES
 #=================================================
 ynh_script_progression --message="Restoring various files..."
@@ -28,28 +47,6 @@ ynh_restore_file --origin_path="/usr/local/bin/lxd-benchmark"
 ynh_restore_file --origin_path="/usr/local/bin/lxd-migrate"
 ynh_restore_file --origin_path="/usr/local/bin/lxd-user"
 ynh_restore_file --origin_path="/etc/bash_completion.d/lxd-client"
-
-ynh_restore_file --origin_path="/etc/dnsmasq.d/lxd"
-
-systemctl restart dnsmasq
-
-ynh_restore_file --origin_path="/etc/ld.so.conf.d/$app.conf"
-
-ldconfig
-
-echo "# Added by lxd
-root:100000:65536" | tee -a /etc/subuid /etc/subgid
-
-#=================================================
-# RESTORE SYSTEM CONFIGURATIONS
-#=================================================
-ynh_script_progression --message="Restoring system configurations related to $app..." --weight=1
-
-ynh_restore_file --origin_path="/etc/systemd/system/$app.service"
-ynh_restore_file --origin_path="/etc/systemd/system/$app.socket"
-systemctl enable "$app.service" --quiet
-
-yunohost service add "$app" --log="/var/log/$app/$app.log"
 
 #=================================================
 # START SYSTEMD SERVICE

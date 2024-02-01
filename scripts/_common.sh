@@ -93,6 +93,53 @@ ynh_remove_systemd_socket_config () {
     fi
 }
 
+_ynh_add_dnsmasq() {
+    # Declare an array to define the options of this helper.
+    local legacy_args=t
+    local -A args_array=( [t]=template= )
+    local template
+    ynh_handle_getopts_args "$@"
+    local template="${template:-dnsmasq.conf}"
+
+    ynh_add_config --template="$template" --destination="/etc/dnsmasq.d/$app"
+
+    ynh_systemd_action --service_name=dnsmasq --action=restart
+}
+
+_ynh_remove_dnsmasq() {
+    ynh_secure_remove --file="/etc/dnsmasq.d/$app"
+
+    ynh_systemd_action --service_name=dnsmasq --action=restart
+}
+
+_ynh_add_ld_so() {
+    # Declare an array to define the options of this helper.
+    local legacy_args=t
+    local -A args_array=( [t]=template= )
+    local template
+    ynh_handle_getopts_args "$@"
+    local template="${template:-ld.so.conf}"
+
+    ynh_add_config --template="$template" --destination="/etc/ld.so.conf.d/$app.conf"
+
+    ldconfig
+}
+
+_ynh_remove_ld_so() {
+    ynh_secure_remove --file="/etc/ld.so.conf.d/$app.conf"
+
+    ldconfig
+}
+
+_ynh_set_subuid_subgid() {
+    echo "# Added by lxd
+root:100000:65536" | tee -a /etc/subuid /etc/subgid
+}
+
+_ynh_unset_subuid_subgid() {
+    sed -i "/# Added by lxd$/{N;/root:100000:65536/d}" /etc/sub{u,g}id
+}
+
 #=================================================
 # EXPERIMENTAL HELPERS
 #=================================================
