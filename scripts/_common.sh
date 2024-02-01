@@ -4,9 +4,6 @@
 # COMMON VARIABLES
 #=================================================
 
-# dependencies used by the app
-pkg_dependencies="acl attr autoconf dnsmasq-base git libacl1-dev libcap-dev liblxc1 lxc-dev libsqlite3-dev libtool libudev-dev liblz4-dev libuv1-dev make pkg-config rsync squashfs-tools tar tcl xz-utils ebtables libapparmor-dev libseccomp-dev libcap-dev lvm2 thin-provisioning-tools btrfs-progs busybox|busybox-static libattr1-dev libuv1 libdevmapper-event1.02.1 dmeventd lxc tcl8.6"
-
 #=================================================
 # PERSONAL HELPERS
 #=================================================
@@ -61,7 +58,7 @@ ynh_add_systemd_socket_config () {
     for var_to_replace in $others_var
     do
         # ${var_to_replace^^} make the content of the variable on upper-cases
-        # ${!var_to_replace} get the content of the variable named $var_to_replace 
+        # ${!var_to_replace} get the content of the variable named $var_to_replace
         ynh_replace_string --match_string="__${var_to_replace^^}__" --replace_string="${!var_to_replace}" --target_file="$finalsystemdconf"
     done
 

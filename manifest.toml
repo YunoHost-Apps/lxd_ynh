@@ -1,0 +1,94 @@
+#:schema https://raw.githubusercontent.com/YunoHost/apps/master/schemas/manifest.v2.schema.json
+
+packaging_format = 2
+
+id = "lxd"
+name = "LXD"
+description.en = "Offers a user experience similar to virtual machines but using Linux containers instead."
+description.fr = "Offre une expérience utilisateur similaire aux machines virtuelles mais en utilisant des conteneurs Linux à la place."
+
+version = "5.20~ynh1"
+
+maintainers = ["kay0u"]
+
+[upstream]
+license = "Apache-2.0"
+website = "https://linuxcontainers.org/lxd/"
+demo = "https://linuxcontainers.org/lxd/try-it/"
+admindoc = "https://linuxcontainers.org/lxd/docs/master/index.html"
+code = "https://github.com/canonical/lxd"
+cpe = "???"
+
+[integration]
+yunohost = ">= 4.3.0"
+architectures = "all" # FIXME: can be replaced by a list of supported archs using the dpkg --print-architecture nomenclature (amd64/i386/armhf/arm64), for example: ["amd64", "i386"]
+multi_instance = false
+ldap = "not_relevant"
+sso = "not_relevant"
+disk = "50M" # FIXME: replace with an **estimate** minimum disk requirement. e.g. 20M, 400M, 1G, ...
+ram.build = "50M" # FIXME: replace with an **estimate** minimum ram requirement. e.g. 50M, 400M, 1G, ...
+ram.runtime = "50M" # FIXME: replace with an **estimate** minimum ram requirement. e.g. 50M, 400M, 1G, ...
+
+[install]
+
+[resources]
+    [resources.sources]
+    [resources.sources.go]
+    amd64.url = "https://go.dev/dl/go1.21.5.linux-amd64.tar.gz"
+    amd64.sha256 = "e2bc0b3e4b64111ec117295c088bde5f00eeed1567999ff77bc859d7df70078e"
+    i386.url = "https://go.dev/dl/go1.21.5.linux-386.tar.gz"
+    i386.sha256 = "8f4dba9cf5c61757bbd7e9ebdb93b6a30a1b03f4a636a1ba0cc2f27b907ab8e1"
+    arm64.url = "https://go.dev/dl/go1.21.5.linux-arm64.tar.gz"
+    arm64.sha256 = "841cced7ecda9b2014f139f5bab5ae31785f35399f236b8b3e75dff2a2978d96"
+    armhf.url = "https://go.dev/dl/go1.21.5.linux-armv6l.tar.gz"
+    armhf.sha256 = "837f4bf4e22fcdf920ffeaa4abf3d02d1314e03725431065f4d44c46a01b42fe"
+
+    [resources.sources.lxd]
+    url = "https://github.com/canonical/lxd/releases/download/lxd-5.20/lxd-5.20.tar.gz"
+    sha256 = "2f958b757f4cde64d0f3578da0bda9ee5965a3a70ec0956eddf8287d1290167f"
+    autoupdate.strategy = "latest_github_release"
+
+    [resources.system_user]
+
+    [resources.install_dir]
+
+    [resources.permissions]
+
+    [resources.apt]
+    packages = [
+        "acl",
+        "attr",
+        "autoconf",
+        "dnsmasq-base",
+        "git",
+        "libacl1-dev",
+        "libcap-dev",
+        "liblxc1",
+        "lxc-dev",
+        "libsqlite3-dev",
+        "libtool",
+        "libudev-dev",
+        "liblz4-dev",
+        "libuv1-dev",
+        "make",
+        "pkg-config",
+        "rsync",
+        "squashfs-tools",
+        "tar",
+        "tcl",
+        "xz-utils",
+        "ebtables",
+        "libapparmor-dev",
+        "libseccomp-dev",
+        "libcap-dev",
+        "lvm2",
+        "thin-provisioning-tools",
+        "btrfs-progs",
+        "busybox|busybox-static",
+        "libattr1-dev",
+        "libuv1",
+        "libdevmapper-event1.02.1",
+        "dmeventd",
+        "lxc",
+        "tcl8.6",
+    ]
