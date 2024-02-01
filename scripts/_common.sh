@@ -132,8 +132,7 @@ _ynh_remove_ld_so() {
 }
 
 _ynh_set_subuid_subgid() {
-    echo "# Added by lxd
-root:100000:65536" | tee -a /etc/subuid /etc/subgid
+    echo -e "# Added by lxd\nroot:100000:65536" | tee -a /etc/subuid /etc/subgid
 }
 
 _ynh_unset_subuid_subgid() {
