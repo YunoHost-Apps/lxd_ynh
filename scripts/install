@@ -61,7 +61,11 @@ ynh_add_systemd_socket_config
 ynh_add_systemd_config
 yunohost service add "$app" --log="/var/log/$app/$app.log"
 
+ynh_exec_warn ss -lp "sport = :domain"
+
 _ynh_add_dnsmasq
+
+ynh_exec_warn ss -lp "sport = :domain"
 
 _ynh_add_ld_so
 

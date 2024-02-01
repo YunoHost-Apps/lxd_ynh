@@ -91,4 +91,7 @@ ram.runtime = "500M"
         "dmeventd",
         "lxc",
         "tcl8.6",
+
+        # For debuging
+        "iproute2",
     ]

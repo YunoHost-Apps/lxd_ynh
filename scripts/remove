@@ -27,7 +27,11 @@ _ynh_remove_ld_so
 
 _ynh_unset_subuid_subgid
 
+ynh_exec_warn ss -lp "sport = :domain"
+
 _ynh_remove_dnsmasq
+
+ynh_exec_warn ss -lp "sport = :domain"
 
 #=================================================
 # REMOVE CONTAINERS
