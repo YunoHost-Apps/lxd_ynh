@@ -23,7 +23,7 @@ fi
 ynh_exec_warn_less ynh_remove_systemd_socket_config
 ynh_exec_warn_less ynh_remove_systemd_config
 
-# Stop LXC systemd services, just for dnsmasq.
+# Stop LXC systemd services for dnsmasq.
 ynh_systemd_action --service_name="lxc-net" --action="stop"
 ynh_systemd_action --service_name="lxc" --action="stop"
 
@@ -31,15 +31,7 @@ _ynh_remove_ld_so
 
 _ynh_unset_subuid_subgid
 
-ynh_exec_warn ss -lp "sport = :domain"
-
 _ynh_remove_dnsmasq
-
-ynh_exec_warn ss -lp "sport = :domain"
-
-# Stop LXC systemd services, just for dnsmasq.
-ynh_systemd_action --service_name="lxc-net" --action="start"
-ynh_systemd_action --service_name="lxc" --action="start"
 
 #=================================================
 # REMOVE CONTAINERS
