@@ -27,12 +27,6 @@ LXD est un gestionnaire de conteneurs système et de machines virtuelles de nouv
 
 ![Capture d’écran de LXD](./doc/screenshots/LXD-logo.png)
 
-## Avertissements / informations importantes
-
-## Configuration
-
-Comment configurer cette application : en cli
-
 ## Documentations et ressources
 
 * Site officiel de l’app : <https://linuxcontainers.org/lxd/>
