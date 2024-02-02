@@ -10,61 +10,13 @@ source _common.sh
 source /usr/share/yunohost/helpers
 
 #=================================================
-# MANAGE SCRIPT FAILURE
-#=================================================
-
-ynh_clean_setup () {
-	ynh_exec_warn_less popd
-
-	ynh_secure_remove --file="$go_tmp"
-	ynh_secure_remove --file="$lxd_tmp"
-}
-# Exit if an error occurs during the execution of the script
-ynh_abort_if_errors
-
-#=================================================
-# RETRIEVE ARGUMENTS FROM THE MANIFEST
-#=================================================
-
-app=$YNH_APP_INSTANCE_NAME
-
-#=================================================
-# STORE SETTINGS FROM MANIFEST
-#=================================================
-ynh_script_progression --message="Storing installation settings..."
-
-#=================================================
-# STANDARD MODIFICATIONS
-#=================================================
-# INSTALL DEPENDENCIES
-#=================================================
-ynh_script_progression --message="Installing dependencies..." --weight=30
-
-ynh_exec_warn_less ynh_install_app_dependencies $pkg_dependencies
-
-#=================================================
-# CREATE DEDICATED USER
-#=================================================
-ynh_script_progression --message="Configuring system user..."
-
-# Create a system user
-ynh_system_user_create --username=$app
-
-#=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
 #=================================================
 ynh_script_progression --message="Setting up source files..." --weight=5
 
 # Download, check integrity, uncompress and patch the source from app.src
-go_tmp=$(mktemp -d)
-ynh_setup_source --dest_dir="$go_tmp" --source_id="go.$YNH_ARCH"
-
-export PATH=$go_tmp/bin:$PATH
-
-lxd_tmp=$(mktemp -d)
-ynh_setup_source --dest_dir="$lxd_tmp" --source_id="lxd"
-
-export GOPATH=${lxd_tmp}/vendor/
+ynh_setup_source --source_id="go" --dest_dir="$install_dir/go"
+ynh_setup_source  --source_id="lxd" --dest_dir="$install_dir/lxd"
 
 #=================================================
 # SPECIFIC SETUP
@@ -73,64 +25,51 @@ export GOPATH=${lxd_tmp}/vendor/
 #=================================================
 ynh_script_progression --message="Building lxd from sources..." --weight=60
 
-pushd ${lxd_tmp}
-	export HOME=${HOME:-"/root/"}
+pushd "$install_dir/lxd"
+	(
+		export PATH="$install_dir/go/bin:$PATH"
+		export GOPATH="$install_dir/lxd/vendor/"
+		export HOME=${HOME:-"/root/"}
 
-	ynh_exec_warn_less make deps
-	export CGO_CFLAGS="-I${GOPATH}/raft/include/ -I${GOPATH}/dqlite/include/"
-	export CGO_LDFLAGS="-L${GOPATH}/raft/.libs -L${GOPATH}/dqlite/.libs/"
-	export LD_LIBRARY_PATH="${GOPATH}/raft/.libs/:${GOPATH}/dqlite/.libs/"
-	export CGO_LDFLAGS_ALLOW="(-Wl,-wrap,pthread_create)|(-Wl,-z,now)"
+		ynh_exec_warn_less make deps
+		export CGO_CFLAGS="-I${GOPATH}/raft/include/ -I${GOPATH}/dqlite/include/"
+		export CGO_LDFLAGS="-L${GOPATH}/raft/.libs -L${GOPATH}/dqlite/.libs/"
+		export LD_LIBRARY_PATH="${GOPATH}/raft/.libs/:${GOPATH}/dqlite/.libs/"
+		export CGO_LDFLAGS_ALLOW="(-Wl,-wrap,pthread_create)|(-Wl,-z,now)"
 
-	ynh_exec_warn_less make
+		ynh_exec_warn_less make
 
-	mkdir -p /usr/local/lib/$app
-	mkdir -p /var/log/$app
-	cp -a ${GOPATH}/{raft,dqlite}/.libs/lib*.so* /usr/local/lib/$app/
-	cp ${GOPATH}/bin/{fuidshift,lxc,lxc-to-lxd,lxd,lxd-agent,lxd-benchmark,lxd-migrate,lxd-user} /usr/local/bin
-	cp ${lxd_tmp}/scripts/bash/lxd-client /etc/bash_completion.d/
+		mkdir -p /usr/local/lib/$app
+		mkdir -p /var/log/$app
+		cp -a ${GOPATH}/{raft,dqlite}/.libs/lib*.so* /usr/local/lib/$app/
+		cp ${GOPATH}/bin/{fuidshift,lxc,lxc-to-lxd,lxd,lxd-agent,lxd-benchmark,lxd-migrate,lxd-user} /usr/local/bin
+		cp $install_dir/lxd/scripts/bash/lxd-client /etc/bash_completion.d/
+	)
 popd
 
-ynh_secure_remove --file="$go_tmp"
-ynh_secure_remove --file="$lxd_tmp"
+ynh_secure_remove --file="$install_dir/go"
+ynh_secure_remove --file="$install_dir/lxd"
 
 #=================================================
-# ADD A CONFIGURATION
+# SYSTEM CONFIGURATION
 #=================================================
-ynh_script_progression --message="Adding a configuration file..."
-
-echo "bind-interfaces
-except-interface=lxdbr0" > /etc/dnsmasq.d/lxd
-systemctl restart dnsmasq
-
-ynh_store_file_checksum --file="/etc/dnsmasq.d/lxd"
-
-echo "/usr/local/lib/$app/" > /etc/ld.so.conf.d/$app.conf
-
-ynh_store_file_checksum --file="/etc/ld.so.conf.d/$app.conf"
-
-ldconfig
-
-echo "# Added by lxd
-root:100000:65536" | tee -a /etc/subuid /etc/subgid
-
-#=================================================
-# SETUP SYSTEMD
-#=================================================
-ynh_script_progression --message="Configuring a systemd service..."
+ynh_script_progression --message="Adding system configurations related to $app..." --weight=1
 
 # Create a dedicated systemd config
 ynh_add_systemd_socket_config
+
 ynh_add_systemd_config
+yunohost service add "$app" --log="/var/log/$app/$app.log"
 
-#=================================================
-# GENERIC FINALIZATION
-#=================================================
-# INTEGRATE SERVICE IN YUNOHOST
-#=================================================
-ynh_script_progression --message="Integrating service in YunoHost..."
+ynh_exec_warn ss -lp "sport = :domain"
 
-yunohost service add $app --log="/var/log/$app/$app.log"
+_ynh_add_dnsmasq
+
+ynh_exec_warn ss -lp "sport = :domain"
+
+_ynh_add_ld_so
+
+_ynh_set_subuid_subgid
 
 #=================================================
 # START SYSTEMD SERVICE
@@ -138,7 +77,7 @@ yunohost service add $app --log="/var/log/$app/$app.log"
 ynh_script_progression --message="Starting a systemd service..."
 
 # Start a systemd service
-ynh_systemd_action --service_name=$app --action="start" --log_path="/var/log/$app/$app.log"
+ynh_systemd_action --service_name="$app" --action="start" --log_path="/var/log/$app/$app.log"
 
 #=================================================
 # END OF SCRIPT

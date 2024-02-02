@@ -10,59 +10,42 @@ source _common.sh
 source /usr/share/yunohost/helpers
 
 #=================================================
-# LOAD SETTINGS
+# REMOVE SYSTEM CONFIGURATIONS
 #=================================================
-ynh_script_progression --message="Loading installation settings..."
-
-app=$YNH_APP_INSTANCE_NAME
-
-#=================================================
-# STANDARD REMOVE
-#=================================================
-# REMOVE SERVICE INTEGRATION IN YUNOHOST
-#=================================================
+ynh_script_progression --message="Removing system configurations related to $app..." --weight=1
 
 # Remove the service from the list of services known by YunoHost (added from `yunohost service add`)
-if ynh_exec_warn_less yunohost service status $app >/dev/null
-then
-	ynh_script_progression --message="Removing $app service integration..."
-	yunohost service remove $app
+if ynh_exec_warn_less yunohost service status "$app" >/dev/null; then
+	yunohost service remove "$app"
 fi
-
-#=================================================
-# STOP AND REMOVE SERVICE
-#=================================================
-ynh_script_progression --message="Stopping and removing the systemd service..."
 
 # Remove the dedicated systemd config
 ynh_exec_warn_less ynh_remove_systemd_socket_config
 ynh_exec_warn_less ynh_remove_systemd_config
 
+# Stop LXC systemd services for dnsmasq.
+ynh_systemd_action --service_name="lxc-net" --action="stop"
+ynh_systemd_action --service_name="lxc" --action="stop"
+
+_ynh_remove_ld_so
+
+_ynh_unset_subuid_subgid
+
+_ynh_remove_dnsmasq
+
 #=================================================
 # REMOVE CONTAINERS
 #=================================================
-
 # Remove the data directory if --purge option is used
-if [ "${YNH_APP_PURGE:-0}" -eq 1 ]
-then
+if [ "${YNH_APP_PURGE:-0}" -eq 1 ]; then
 	ynh_script_progression --message="Removing containers..."
 	ynh_secure_remove --file="/var/lib/lxd"
 fi
 
 #=================================================
-# REMOVE DEPENDENCIES
-#=================================================
-ynh_script_progression --message="Removing dependencies..." --weight=20
-
-# Remove metapackage and its dependencies
-ynh_exec_warn_less  ynh_remove_app_dependencies
-
-#=================================================
 # CLOSE A PORT
 #=================================================
-
-if yunohost firewall list | grep -q "\- 67$"
-then
+if yunohost firewall list | grep -q "\- 67$"; then
 	ynh_script_progression --message="Closing port 67..."
 	ynh_exec_warn_less yunohost firewall disallow Both 67
 fi
@@ -73,11 +56,6 @@ fi
 # REMOVE VARIOUS FILES
 #=================================================
 ynh_script_progression --message="Removing various files..."
-
-# Remove a directory securely
-ynh_secure_remove --file="/etc/ld.so.conf.d/$app.conf"
-
-ldconfig
 
 ynh_secure_remove --file="/usr/local/lib/$app"
 
@@ -93,22 +71,6 @@ ynh_secure_remove --file="/usr/local/bin/lxd-benchmark"
 ynh_secure_remove --file="/usr/local/bin/lxd-migrate"
 ynh_secure_remove --file="/usr/local/bin/lxd-user"
 ynh_secure_remove --file="/etc/bash_completion.d/lxd-client"
-
-sed -i "/# Added by lxd$/{N;/root:100000:65536/d}" /etc/sub{u,g}id
-
-ynh_secure_remove --file="/etc/dnsmasq.d/lxd"
-
-systemctl restart dnsmasq
-
-#=================================================
-# GENERIC FINALIZATION
-#=================================================
-# REMOVE DEDICATED USER
-#=================================================
-ynh_script_progression --message="Removing the dedicated system user..."
-
-# Delete a system user
-ynh_system_user_delete --username=$app
 
 #=================================================
 # END OF SCRIPT

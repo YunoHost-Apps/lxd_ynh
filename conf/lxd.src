@@ -1,7 +1,0 @@
-SOURCE_URL=https://github.com/canonical/lxd/releases/download/lxd-5.20/lxd-5.20.tar.gz
-SOURCE_SUM=2f958b757f4cde64d0f3578da0bda9ee5965a3a70ec0956eddf8287d1290167f
-SOURCE_SUM_PRG=sha256sum
-SOURCE_FORMAT=tar.gz
-SOURCE_IN_SUBDIR=true
-SOURCE_FILENAME=
-SOURCE_EXTRACT=true

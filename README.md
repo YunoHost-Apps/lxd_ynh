@@ -26,12 +26,6 @@ LXD is a next generation system container and virtual machine manager. It offers
 
 ![Screenshot of LXD](./doc/screenshots/LXD-logo.png)
 
-## Disclaimers / important information
-
-## Configuration
-
-How to configure this app: In cli
-
 ## Documentation and resources
 
 * Official app website: <https://linuxcontainers.org/lxd/>
