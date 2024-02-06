@@ -94,14 +94,7 @@ ynh_remove_systemd_socket_config () {
 }
 
 _ynh_add_dnsmasq() {
-    # Declare an array to define the options of this helper.
-    local legacy_args=t
-    local -A args_array=( [t]=template= )
-    local template
-    ynh_handle_getopts_args "$@"
-    local template="${template:-dnsmasq.conf}"
-
-    ynh_add_config --template="$template" --destination="/etc/dnsmasq.d/$app"
+    ynh_add_config --template="dnsmasq.conf" --destination="/etc/dnsmasq.d/$app"
 
     ynh_systemd_action --service_name=dnsmasq --action=restart
 }
@@ -113,14 +106,7 @@ _ynh_remove_dnsmasq() {
 }
 
 _ynh_add_ld_so() {
-    # Declare an array to define the options of this helper.
-    local legacy_args=t
-    local -A args_array=( [t]=template= )
-    local template
-    ynh_handle_getopts_args "$@"
-    local template="${template:-ld.so.conf}"
-
-    ynh_add_config --template="$template" --destination="/etc/ld.so.conf.d/$app.conf"
+    ynh_add_config --template="ld.so.conf" --destination="/etc/ld.so.conf.d/$app.conf"
 
     ldconfig
 }
