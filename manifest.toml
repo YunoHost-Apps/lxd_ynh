@@ -1,0 +1,90 @@
+#:schema https://raw.githubusercontent.com/YunoHost/apps/master/schemas/manifest.v2.schema.json
+
+packaging_format = 2
+
+id = "lxd"
+name = "LXD"
+description.en = "Offers a user experience similar to virtual machines but using Linux containers instead."
+description.fr = "Offre une expérience utilisateur similaire aux machines virtuelles mais en utilisant des conteneurs Linux à la place."
+
+version = "5.20~ynh1"
+
+maintainers = ["kay0u"]
+
+[upstream]
+license = "Apache-2.0"
+website = "https://linuxcontainers.org/lxd/"
+demo = "https://linuxcontainers.org/lxd/try-it/"
+admindoc = "https://linuxcontainers.org/lxd/docs/master/index.html"
+code = "https://github.com/canonical/lxd"
+cpe = "cpe:2.3:a:canonical:lxd"
+
+[integration]
+yunohost = ">= 4.3.0"
+architectures = "all"
+multi_instance = false
+ldap = "not_relevant"
+sso = "not_relevant"
+disk = "500M"
+ram.build = "600M"
+ram.runtime = "500M"
+
+[install]
+
+[resources]
+    [resources.sources]
+    [resources.sources.go]
+    amd64.url = "https://go.dev/dl/go1.22.0.linux-amd64.tar.gz"
+    amd64.sha256 = "f6c8a87aa03b92c4b0bf3d558e28ea03006eb29db78917daec5cfb6ec1046265"
+    i386.url = "https://go.dev/dl/go1.22.0.linux-386.tar.gz"
+    i386.sha256 = "1e209c4abde069067ac9afb341c8003db6a210f8173c77777f02d3a524313da3"
+    arm64.url = "https://go.dev/dl/go1.22.0.linux-arm64.tar.gz"
+    arm64.sha256 = "6a63fef0e050146f275bf02a0896badfe77c11b6f05499bb647e7bd613a45a10"
+    armhf.url = "https://go.dev/dl/go1.21.5.linux-armv6l.tar.gz"
+    armhf.sha256 = "837f4bf4e22fcdf920ffeaa4abf3d02d1314e03725431065f4d44c46a01b42fe"
+
+    [resources.sources.lxd]
+    url = "https://github.com/canonical/lxd/releases/download/lxd-5.20/lxd-5.20.tar.gz"
+    sha256 = "2f958b757f4cde64d0f3578da0bda9ee5965a3a70ec0956eddf8287d1290167f"
+    autoupdate.strategy = "latest_github_release"
+
+    [resources.system_user]
+
+    [resources.install_dir]
+
+    [resources.permissions]
+
+    [resources.apt]
+    packages = [
+        # According to https://documentation.ubuntu.com/lxd/en/latest/installing/#install-lxd-from-source
+        "acl",
+        "attr",
+        "autoconf",
+        "automake",
+        "dnsmasq-base",
+        "git",
+        "libacl1-dev",
+        "libcap-dev",
+        "liblxc1",
+        "lxc-dev",
+        "libsqlite3-dev",
+        "libtool",
+        "libudev-dev",
+        "liblz4-dev",
+        "libuv1-dev",
+        "make",
+        "pkg-config",
+        "rsync",
+        "squashfs-tools",
+        "tar",
+        "tcl",
+        "xz-utils",
+        "ebtables",
+
+        # For lvm2
+        "lvm2",
+        "thin-provisioning-tools",
+
+        # For btrfs
+        "btrfs-progs"
+    ]

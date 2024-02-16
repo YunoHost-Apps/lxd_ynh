@@ -10,36 +10,6 @@ source _common.sh
 source /usr/share/yunohost/helpers
 
 #=================================================
-# LOAD SETTINGS
-#=================================================
-ynh_script_progression --message="Loading installation settings..."
-
-app=$YNH_APP_INSTANCE_NAME
-
-#=================================================
-# BACKUP BEFORE UPGRADE THEN ACTIVE TRAP
-#=================================================
-ynh_script_progression --message="Backing up the app before upgrading (may take a while)..."
-
-# Backup the current version of the app
-ynh_backup_before_upgrade
-ynh_clean_setup () {
-	ynh_exec_warn_less popd
-
-	ynh_secure_remove --file="$go_tmp"
-	ynh_secure_remove --file="$lxd_tmp"
-	# Restore it if the upgrade fails
-	ynh_restore_upgradebackup
-}
-# Exit if an error occurs during the execution of the script
-ynh_abort_if_errors
-
-# Remove old file
-if [ -f "/usr/local/bin/lxd-p2c" ]; then
-	ynh_secure_remove --file="/usr/local/bin/lxd-p2c"
-fi
-
-#=================================================
 # STANDARD UPGRADE STEPS
 #=================================================
 # STOP SYSTEMD SERVICE
@@ -47,22 +17,19 @@ fi
 ynh_script_progression --message="Stopping a systemd service..."
 
 ynh_systemd_action --service_name="$app.socket" --action="stop"
-ynh_systemd_action --service_name=$app --action="stop" --log_path="/var/log/$app/$app.log"
+ynh_systemd_action --service_name="$app" --action="stop" --log_path="/var/log/$app/$app.log"
 
 #=================================================
 # ENSURE DOWNWARD COMPATIBILITY
 #=================================================
 ynh_script_progression --message="Ensuring downward compatibility..."
 
+# Remove old file
+if [ -f "/usr/local/bin/lxd-p2c" ]; then
+	ynh_secure_remove --file="/usr/local/bin/lxd-p2c"
+fi
+
 sed -i "/root:1000000:65536 # Added by lxd#/d" /etc/sub{u,g}id
-
-#=================================================
-# CREATE DEDICATED USER
-#=================================================
-ynh_script_progression --message="Making sure dedicated system user exists..."
-
-# Create a dedicated user (if not existing)
-ynh_system_user_create --username=$app
 
 #=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
@@ -70,22 +37,13 @@ ynh_system_user_create --username=$app
 ynh_script_progression --message="Setting up source files..."
 
 # Download, check integrity, uncompress and patch the source from app.src
-go_tmp=$(mktemp -d)
-ynh_setup_source --dest_dir="$go_tmp" --source_id="go.$YNH_ARCH"
+ynh_setup_source --source_id="go" --dest_dir="$install_dir/go" --full_replace=1
 
-export PATH=$go_tmp/bin:$PATH
+export PATH="$install_dir/go/bin:$PATH"
 
-lxd_tmp=$(mktemp -d)
-ynh_setup_source --dest_dir="$lxd_tmp" --source_id="lxd"
+ynh_setup_source  --source_id="lxd" --dest_dir="$install_dir/lxd" --full_replace=1
 
-export GOPATH=${lxd_tmp}/vendor/
-
-#=================================================
-# UPGRADE DEPENDENCIES
-#=================================================
-ynh_script_progression --message="Upgrading dependencies..."
-
-ynh_exec_warn_less ynh_install_app_dependencies $pkg_dependencies
+export GOPATH="$install_dir/lxd/vendor/"
 
 #=================================================
 # SPECIFIC UPGRADE
@@ -94,7 +52,7 @@ ynh_exec_warn_less ynh_install_app_dependencies $pkg_dependencies
 #=================================================
 ynh_script_progression --message="Building lxd from sources..." --weight=60
 
-pushd ${lxd_tmp}
+pushd "$install_dir/lxd"
 	export HOME=${HOME:-"/root/"}
 
 	ynh_exec_warn_less make deps
@@ -103,68 +61,41 @@ pushd ${lxd_tmp}
 	export LD_LIBRARY_PATH="${GOPATH}/raft/.libs/:${GOPATH}/dqlite/.libs/"
 	export CGO_LDFLAGS_ALLOW="(-Wl,-wrap,pthread_create)|(-Wl,-z,now)"
 
-	export GOCACHE=$go_tmp
-
 	ynh_exec_warn_less make
 
 	mkdir -p /usr/local/lib/$app
 	mkdir -p /var/log/$app
 	cp -a ${GOPATH}/{raft,dqlite}/.libs/lib*.so* /usr/local/lib/$app/
 	cp ${GOPATH}/bin/{fuidshift,lxc,lxc-to-lxd,lxd,lxd-agent,lxd-benchmark,lxd-migrate,lxd-user} /usr/local/bin
-	cp ${lxd_tmp}/scripts/bash/lxd-client /etc/bash_completion.d/
+	cp $install_dir/lxd/scripts/bash/lxd-client /etc/bash_completion.d/
 popd
 
-ynh_secure_remove --file="$go_tmp"
-ynh_secure_remove --file="$lxd_tmp"
+ynh_secure_remove --file="$install_dir/go"
+ynh_secure_remove --file="$install_dir/lxd"
 
 #=================================================
-# UPDATE A CONFIG FILE
+# REAPPLY SYSTEM CONFIGURATIONS
 #=================================================
-ynh_script_progression --message="Updating a configuration file..."
-
-ynh_backup_if_checksum_is_different --file="/etc/dnsmasq.d/lxd"
-
-echo "bind-interfaces
-except-interface=lxdbr0" > /etc/dnsmasq.d/lxd
-systemctl restart dnsmasq
-
-ynh_store_file_checksum --file="/etc/dnsmasq.d/lxd"
-
-ynh_backup_if_checksum_is_different --file="/etc/ld.so.conf.d/$app.conf"
-
-echo "/usr/local/lib/$app/" > /etc/ld.so.conf.d/$app.conf
-
-ynh_store_file_checksum --file="/etc/ld.so.conf.d/$app.conf"
-
-ldconfig
-
-echo "# Added by lxd
-root:100000:65536" | tee -a /etc/subuid /etc/subgid
-
-#=================================================
-# SETUP SYSTEMD
-#=================================================
-ynh_script_progression --message="Upgrading systemd configuration..."
+ynh_script_progression --message="Upgrading system configurations related to $app..." --weight=1
 
 # Create a dedicated systemd config
 ynh_add_systemd_socket_config
+
 ynh_add_systemd_config
+yunohost service add "$app" --log="/var/log/$app/$app.log"
 
-#=================================================
-# GENERIC FINALIZATION
-#=================================================
-# INTEGRATE SERVICE IN YUNOHOST
-#=================================================
-ynh_script_progression --message="Integrating service in YunoHost..."
+_ynh_add_dnsmasq
 
-yunohost service add $app --log="/var/log/$app/$app.log"
+_ynh_add_ld_so
+
+_ynh_set_subuid_subgid
 
 #=================================================
 # START SYSTEMD SERVICE
 #=================================================
 ynh_script_progression --message="Starting a systemd service..."
 
-ynh_systemd_action --service_name=$app --action="start" --log_path="/var/log/$app/$app.log"
+ynh_systemd_action --service_name="$app" --action="start" --log_path="/var/log/$app/$app.log"
 
 #=================================================
 # END OF SCRIPT

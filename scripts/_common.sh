@@ -4,9 +4,6 @@
 # COMMON VARIABLES
 #=================================================
 
-# dependencies used by the app
-pkg_dependencies="acl attr autoconf dnsmasq-base git libacl1-dev libcap-dev liblxc1 lxc-dev libsqlite3-dev libtool libudev-dev liblz4-dev libuv1-dev make pkg-config rsync squashfs-tools tar tcl xz-utils ebtables libapparmor-dev libseccomp-dev libcap-dev lvm2 thin-provisioning-tools btrfs-progs busybox|busybox-static libattr1-dev libuv1 libdevmapper-event1.02.1 dmeventd lxc tcl8.6"
-
 #=================================================
 # PERSONAL HELPERS
 #=================================================
@@ -61,7 +58,7 @@ ynh_add_systemd_socket_config () {
     for var_to_replace in $others_var
     do
         # ${var_to_replace^^} make the content of the variable on upper-cases
-        # ${!var_to_replace} get the content of the variable named $var_to_replace 
+        # ${!var_to_replace} get the content of the variable named $var_to_replace
         ynh_replace_string --match_string="__${var_to_replace^^}__" --replace_string="${!var_to_replace}" --target_file="$finalsystemdconf"
     done
 
@@ -94,6 +91,38 @@ ynh_remove_systemd_socket_config () {
         ynh_secure_remove --file="$finalsystemdconf"
         systemctl daemon-reload
     fi
+}
+
+_ynh_add_dnsmasq() {
+    ynh_add_config --template="dnsmasq.conf" --destination="/etc/dnsmasq.d/$app"
+
+    ynh_systemd_action --service_name=dnsmasq --action=restart
+}
+
+_ynh_remove_dnsmasq() {
+    ynh_secure_remove --file="/etc/dnsmasq.d/$app"
+
+    ynh_systemd_action --service_name=dnsmasq --action=restart
+}
+
+_ynh_add_ld_so() {
+    ynh_add_config --template="ld.so.conf" --destination="/etc/ld.so.conf.d/$app.conf"
+
+    ldconfig
+}
+
+_ynh_remove_ld_so() {
+    ynh_secure_remove --file="/etc/ld.so.conf.d/$app.conf"
+
+    ldconfig
+}
+
+_ynh_set_subuid_subgid() {
+    echo -e "# Added by lxd\nroot:100000:65536" | tee -a /etc/subuid /etc/subgid
+}
+
+_ynh_unset_subuid_subgid() {
+    sed -i "/# Added by lxd$/{N;/root:100000:65536/d}" /etc/sub{u,g}id
 }
 
 #=================================================
