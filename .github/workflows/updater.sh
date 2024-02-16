@@ -20,8 +20,8 @@ go_arch=($(curl --silent "$go_url" | jq -r '.[] | select(.version=="'$go_version
 
 # Setting up the environment variables
 echo "Current version: $current_version"
-echo "Latest release from upstream: $go_version"
-echo "VERSION=$go_version" >> $GITHUB_ENV
+echo "Latest release from upstream: ${go_version#go}"
+echo "VERSION=${go_version#go}" >> $GITHUB_ENV
 # For the time being, let's assume the script will fail
 echo "PROCEED=false" >> $GITHUB_ENV
 
