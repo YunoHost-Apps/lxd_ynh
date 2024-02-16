@@ -14,7 +14,7 @@
 #=================================================
 go_url="https://go.dev/dl/?mode=json"
 
-current_version=$(cat ../../manifest.toml | sed -n "s/\"https:\/\/go.dev\/dl\/go\(.*\).linux-amd64.tar.gz\"/\1/p" | cut -d'=' -f2)
+current_version=$(cat manifest.toml | sed -n "s/\"https:\/\/go.dev\/dl\/go\(.*\).linux-amd64.tar.gz\"/\1/p" | cut -d'=' -f2)
 go_version=$(curl --silent "$go_url" | jq -r '.[] | .version' | sort -V | tail -1)
 go_arch=($(curl --silent "$go_url" | jq -r '.[] | select(.version=="'$go_version'") | .files[] | select(.os == "linux") | .arch'))
 
