@@ -26,7 +26,7 @@ echo "VERSION=${go_version#go}" >> $GITHUB_ENV
 echo "PROCEED=false" >> $GITHUB_ENV
 
 # Proceed only if the retrieved version is greater than the current one
-if ! dpkg --compare-versions "$current_version" "lt" "$go_version" ; then
+if ! dpkg --compare-versions "$current_version" "lt" "${go_version#go}" ; then
     echo "::warning ::No new version available"
     exit 0
 # Proceed only if a PR for this new version does not already exist
