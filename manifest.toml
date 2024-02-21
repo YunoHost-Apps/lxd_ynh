@@ -44,8 +44,8 @@ ram.runtime = "500M"
     armhf.sha256 = "837f4bf4e22fcdf920ffeaa4abf3d02d1314e03725431065f4d44c46a01b42fe"
 
     [resources.sources.lxd]
-    url = "https://github.com/canonical/lxd/releases/download/lxd-5.20/lxd-5.20.tar.gz"
-    sha256 = "2f958b757f4cde64d0f3578da0bda9ee5965a3a70ec0956eddf8287d1290167f"
+    url = "https://github.com/canonical/lxd/archive/refs/tags/lxd-5.20.tar.gz"
+    sha256 = "bddfa7b8091ab6bdb5cdaf13b6c09f5a548976cd3118e8c73c3b7881adf94307"
     autoupdate.strategy = "latest_github_release"
 
     [resources.system_user]
