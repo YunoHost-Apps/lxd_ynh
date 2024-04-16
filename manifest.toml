@@ -7,7 +7,7 @@ name = "LXD"
 description.en = "Offers a user experience similar to virtual machines but using Linux containers instead."
 description.fr = "Offre une expérience utilisateur similaire aux machines virtuelles mais en utilisant des conteneurs Linux à la place."
 
-version = "5.20~ynh1"
+version = "5.20~ynh2"
 
 maintainers = ["kay0u"]
 
