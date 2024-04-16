@@ -9,7 +9,7 @@ It shall NOT be edited by hand.
 
 [![Install LXD with YunoHost](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=lxd)
 
-*[Read this README is other languages.](./ALL_README.md)*
+*[Read this README in other languages.](./ALL_README.md)*
 
 > *This package allows you to install LXD quickly and simply on a YunoHost server.*  
 > *If you don't have YunoHost, please consult [the guide](https://yunohost.org/install) to learn how to install it.*
@@ -18,7 +18,7 @@ It shall NOT be edited by hand.
 
 LXD is a next generation system container and virtual machine manager. It offers a unified user experience around full Linux systems running inside containers or virtual machines.
 
-**Shipped version:** 5.20~ynh1
+**Shipped version:** 5.20~ynh2
 
 **Demo:** <https://linuxcontainers.org/lxd/try-it/>
 
