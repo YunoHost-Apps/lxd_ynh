@@ -34,12 +34,12 @@ ram.runtime = "500M"
 [resources]
     [resources.sources]
     [resources.sources.go]
-    amd64.url = "https://go.dev/dl/go1.22.0.linux-amd64.tar.gz"
-    amd64.sha256 = "f6c8a87aa03b92c4b0bf3d558e28ea03006eb29db78917daec5cfb6ec1046265"
-    i386.url = "https://go.dev/dl/go1.22.0.linux-386.tar.gz"
-    i386.sha256 = "1e209c4abde069067ac9afb341c8003db6a210f8173c77777f02d3a524313da3"
-    arm64.url = "https://go.dev/dl/go1.22.0.linux-arm64.tar.gz"
-    arm64.sha256 = "6a63fef0e050146f275bf02a0896badfe77c11b6f05499bb647e7bd613a45a10"
+    amd64.url = "https://go.dev/dl/go1.22.3.linux-amd64.tar.gz"
+    amd64.sha256 = "8920ea521bad8f6b7bc377b4824982e011c19af27df88a815e3586ea895f1b36"
+    i386.url = "https://go.dev/dl/go1.22.3.linux-386.tar.gz"
+    i386.sha256 = "fefba30bb0d3dd1909823ee38c9f1930c3dc5337a2ac4701c2277a329a386b57"
+    arm64.url = "https://go.dev/dl/go1.22.3.linux-arm64.tar.gz"
+    arm64.sha256 = "6c33e52a5b26e7aa021b94475587fce80043a727a54ceb0eee2f9fc160646434"
     armhf.url = "https://go.dev/dl/go1.21.5.linux-armv6l.tar.gz"
     armhf.sha256 = "837f4bf4e22fcdf920ffeaa4abf3d02d1314e03725431065f4d44c46a01b42fe"
 
