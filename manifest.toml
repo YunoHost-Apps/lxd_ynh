@@ -7,7 +7,7 @@ name = "LXD"
 description.en = "Offers a user experience similar to virtual machines but using Linux containers instead."
 description.fr = "Offre une expérience utilisateur similaire aux machines virtuelles mais en utilisant des conteneurs Linux à la place."
 
-version = "5.20~ynh2"
+version = "5.21.1~ynh1"
 
 maintainers = ["kay0u"]
 
@@ -20,7 +20,7 @@ code = "https://github.com/canonical/lxd"
 cpe = "cpe:2.3:a:canonical:lxd"
 
 [integration]
-yunohost = ">= 4.3.0"
+yunohost = ">= 11.2"
 architectures = "all"
 multi_instance = false
 ldap = "not_relevant"
@@ -44,8 +44,8 @@ ram.runtime = "500M"
     armhf.sha256 = "837f4bf4e22fcdf920ffeaa4abf3d02d1314e03725431065f4d44c46a01b42fe"
 
     [resources.sources.lxd]
-    url = "https://github.com/canonical/lxd/releases/download/lxd-5.20/lxd-5.20.tar.gz"
-    sha256 = "2f958b757f4cde64d0f3578da0bda9ee5965a3a70ec0956eddf8287d1290167f"
+    url = "https://github.com/canonical/lxd/releases/download/lxd-5.21.1/lxd-5.21.1.tar.gz"
+    sha256 = "f148aa7e1fc31f6cef3038e141e9bd03787274ffc506b97376d758abf1a93cb7"
     autoupdate.strategy = "latest_github_release"
 
     [resources.system_user]
