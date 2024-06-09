@@ -3,7 +3,7 @@
 请勿手动编辑。
 -->
 
-# YunoHost 的 LXD
+# YunoHost 上的 LXD
 
 [![集成程度](https://dash.yunohost.org/integration/lxd.svg)](https://dash.yunohost.org/appci/app/lxd) ![工作状态](https://ci-apps.yunohost.org/ci/badges/lxd.status.svg) ![维护状态](https://ci-apps.yunohost.org/ci/badges/lxd.maintain.svg)
 
@@ -18,7 +18,7 @@
 
 LXD is a next generation system container and virtual machine manager. It offers a unified user experience around full Linux systems running inside containers or virtual machines.
 
-**分发版本：** 5.20~ynh2
+**分发版本：** 5.21.1~ynh1
 
 **演示：** <https://linuxcontainers.org/lxd/try-it/>
 
