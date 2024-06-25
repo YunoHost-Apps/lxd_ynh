@@ -60,7 +60,6 @@ ynh_script_progression --message="Removing various files..."
 ynh_secure_remove --file="/usr/local/lib/$app"
 
 # Remove the log files
-ynh_secure_remove --file="/var/log/$app"
 
 ynh_secure_remove --file="/usr/local/bin/fuidshift"
 ynh_secure_remove --file="/usr/local/bin/lxc"
