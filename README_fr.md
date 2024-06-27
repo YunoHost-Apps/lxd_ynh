@@ -5,7 +5,7 @@ Il NE doit PAS être modifié à la main.
 
 # LXD pour YunoHost
 
-[![Niveau d’intégration](https://dash.yunohost.org/integration/lxd.svg)](https://dash.yunohost.org/appci/app/lxd) ![Statut du fonctionnement](https://ci-apps.yunohost.org/ci/badges/lxd.status.svg) ![Statut de maintenance](https://ci-apps.yunohost.org/ci/badges/lxd.maintain.svg)
+[![Niveau d’intégration](https://dash.yunohost.org/integration/lxd.svg)](https://ci-apps.yunohost.org/ci/apps/lxd/) ![Statut du fonctionnement](https://ci-apps.yunohost.org/ci/badges/lxd.status.svg) ![Statut de maintenance](https://ci-apps.yunohost.org/ci/badges/lxd.maintain.svg)
 
 [![Installer LXD avec YunoHost](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=lxd)
 
