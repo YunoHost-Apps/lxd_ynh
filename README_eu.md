@@ -5,7 +5,7 @@ EZ editatu eskuz.
 
 # LXD YunoHost-erako
 
-[![Integrazio maila](https://dash.yunohost.org/integration/lxd.svg)](https://dash.yunohost.org/appci/app/lxd) ![Funtzionamendu egoera](https://ci-apps.yunohost.org/ci/badges/lxd.status.svg) ![Mantentze egoera](https://ci-apps.yunohost.org/ci/badges/lxd.maintain.svg)
+[![Integrazio maila](https://dash.yunohost.org/integration/lxd.svg)](https://ci-apps.yunohost.org/ci/apps/lxd/) ![Funtzionamendu egoera](https://ci-apps.yunohost.org/ci/badges/lxd.status.svg) ![Mantentze egoera](https://ci-apps.yunohost.org/ci/badges/lxd.maintain.svg)
 
 [![Instalatu LXD YunoHost-ekin](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=lxd)
 
