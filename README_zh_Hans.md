@@ -5,7 +5,7 @@
 
 # YunoHost 上的 LXD
 
-[![集成程度](https://dash.yunohost.org/integration/lxd.svg)](https://dash.yunohost.org/appci/app/lxd) ![工作状态](https://ci-apps.yunohost.org/ci/badges/lxd.status.svg) ![维护状态](https://ci-apps.yunohost.org/ci/badges/lxd.maintain.svg)
+[![集成程度](https://dash.yunohost.org/integration/lxd.svg)](https://ci-apps.yunohost.org/ci/apps/lxd/) ![工作状态](https://ci-apps.yunohost.org/ci/badges/lxd.status.svg) ![维护状态](https://ci-apps.yunohost.org/ci/badges/lxd.maintain.svg)
 
 [![使用 YunoHost 安装 LXD](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=lxd)
 
