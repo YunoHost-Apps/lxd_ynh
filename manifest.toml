@@ -34,12 +34,12 @@ ram.runtime = "500M"
 [resources]
     [resources.sources]
     [resources.sources.go]
-    amd64.url = "https://go.dev/dl/go1.22.4.linux-amd64.tar.gz"
-    amd64.sha256 = "ba79d4526102575196273416239cca418a651e049c2b099f3159db85e7bade7d"
-    i386.url = "https://go.dev/dl/go1.22.4.linux-386.tar.gz"
-    i386.sha256 = "47a2a8d249a91eb8605c33bceec63aedda0441a43eac47b4721e3975ff916cec"
-    arm64.url = "https://go.dev/dl/go1.22.4.linux-arm64.tar.gz"
-    arm64.sha256 = "a8e177c354d2e4a1b61020aca3562e27ea3e8f8247eca3170e3fa1e0c2f9e771"
+    amd64.url = "https://go.dev/dl/go1.22.5.linux-amd64.tar.gz"
+    amd64.sha256 = "904b924d435eaea086515bc63235b192ea441bd8c9b198c507e85009e6e4c7f0"
+    i386.url = "https://go.dev/dl/go1.22.5.linux-386.tar.gz"
+    i386.sha256 = "3ea4c78e6fa52978ae1ed2e5927ad17495da440c9fae7787b1ebc1d0572f7f43"
+    arm64.url = "https://go.dev/dl/go1.22.5.linux-arm64.tar.gz"
+    arm64.sha256 = "8d21325bfcf431be3660527c1a39d3d9ad71535fabdf5041c826e44e31642b5a"
     armhf.url = "https://go.dev/dl/go1.21.5.linux-armv6l.tar.gz"
     armhf.sha256 = "837f4bf4e22fcdf920ffeaa4abf3d02d1314e03725431065f4d44c46a01b42fe"
 
@@ -47,7 +47,7 @@ ram.runtime = "500M"
     url = "https://github.com/canonical/lxd/releases/download/lxd-5.21.1/lxd-5.21.1.tar.gz"
     sha256 = "f148aa7e1fc31f6cef3038e141e9bd03787274ffc506b97376d758abf1a93cb7"
     autoupdate.strategy = "latest_github_release"
-    autoupdate.asset = "^lxd-.*.tar.gz"
+    autoupdate.asset = "^lxd-.*.tar.gz$"
 
     [resources.system_user]
 
