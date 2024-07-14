@@ -56,16 +56,16 @@ pushd "$install_dir/lxd"
 	export HOME=${HOME:-"/root/"}
 
 	ynh_exec_warn_less make deps
-	export CGO_CFLAGS="-I${GOPATH}/raft/include/ -I${GOPATH}/dqlite/include/"
-	export CGO_LDFLAGS="-L${GOPATH}/raft/.libs -L${GOPATH}/dqlite/.libs/"
-	export LD_LIBRARY_PATH="${GOPATH}/raft/.libs/:${GOPATH}/dqlite/.libs/"
+	export CGO_CFLAGS="-I${GOPATH}dqlite/include/"
+	export CGO_LDFLAGS="-L${GOPATH}dqlite/.libs/"
+	export LD_LIBRARY_PATH="${GOPATH}dqlite/.libs/"
 	export CGO_LDFLAGS_ALLOW="(-Wl,-wrap,pthread_create)|(-Wl,-z,now)"
 
 	ynh_exec_warn_less make
 
 	mkdir -p /usr/local/lib/$app
 	mkdir -p /var/log/$app
-	cp -a ${GOPATH}/{raft,dqlite}/.libs/lib*.so* /usr/local/lib/$app/
+	cp -a ${GOPATH}/dqlite/.libs/lib*.so* /usr/local/lib/$app/
 	cp ${GOPATH}/bin/{fuidshift,lxc,lxc-to-lxd,lxd,lxd-agent,lxd-benchmark,lxd-migrate,lxd-user} /usr/local/bin
 	cp $install_dir/lxd/scripts/bash/lxd-client /etc/bash_completion.d/
 popd
