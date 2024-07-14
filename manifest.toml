@@ -46,8 +46,10 @@ ram.runtime = "500M"
     [resources.sources.main]
     url = "https://github.com/canonical/lxd/releases/download/lxd-5.21.1/lxd-5.21.1.tar.gz"
     sha256 = "f148aa7e1fc31f6cef3038e141e9bd03787274ffc506b97376d758abf1a93cb7"
+
     autoupdate.strategy = "latest_github_release"
     autoupdate.asset = "^lxd-.*.tar.gz$"
+    autoupdate.version_regex = "^lxd-(.*)$"
 
     [resources.system_user]
 
