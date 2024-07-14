@@ -41,7 +41,7 @@ ynh_setup_source --source_id="go" --dest_dir="$install_dir/go" --full_replace=1
 
 export PATH="$install_dir/go/bin:$PATH"
 
-ynh_setup_source  --source_id="lxd" --dest_dir="$install_dir/lxd" --full_replace=1
+ynh_setup_source  --source_id="main" --dest_dir="$install_dir/lxd" --full_replace=1
 
 export GOPATH="$install_dir/lxd/vendor/"
 
