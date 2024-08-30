@@ -1,32 +1,24 @@
 #!/bin/bash
 
-#=================================================
-# GENERIC START
-#=================================================
-# IMPORT GENERIC HELPERS
-#=================================================
-
 source _common.sh
 source /usr/share/yunohost/helpers
 
 #=================================================
-# STANDARD UPGRADE STEPS
-#=================================================
 # STOP SYSTEMD SERVICE
 #=================================================
-ynh_script_progression --message="Stopping a systemd service..."
+ynh_script_progression "Stopping $app's systemd service..."
 
-ynh_systemd_action --service_name="$app.socket" --action="stop"
-ynh_systemd_action --service_name="$app" --action="stop" --log_path="/var/log/$app/$app.log"
+ynh_systemctl --service="$app.socket" --action="stop"
+ynh_systemctl --service="$app" --action="stop"
 
 #=================================================
 # ENSURE DOWNWARD COMPATIBILITY
 #=================================================
-ynh_script_progression --message="Ensuring downward compatibility..."
+ynh_script_progression "Ensuring downward compatibility..."
 
 # Remove old file
 if [ -f "/usr/local/bin/lxd-p2c" ]; then
-	ynh_secure_remove --file="/usr/local/bin/lxd-p2c"
+	ynh_safe_rm "/usr/local/bin/lxd-p2c"
 fi
 
 sed -i "/root:1000000:65536 # Added by lxd#/d" /etc/sub{u,g}id
@@ -34,34 +26,32 @@ sed -i "/root:1000000:65536 # Added by lxd#/d" /etc/sub{u,g}id
 #=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
 #=================================================
-ynh_script_progression --message="Setting up source files..."
+ynh_script_progression "Setting up source files..."
 
 # Download, check integrity, uncompress and patch the source from app.src
-ynh_setup_source --source_id="go" --dest_dir="$install_dir/go" --full_replace=1
+ynh_setup_source --source_id="go" --dest_dir="$install_dir/go" --full_replace
 
 export PATH="$install_dir/go/bin:$PATH"
 
-ynh_setup_source  --source_id="main" --dest_dir="$install_dir/lxd" --full_replace=1
+ynh_setup_source  --source_id="main" --dest_dir="$install_dir/lxd" --full_replace
 
 export GOPATH="$install_dir/lxd/vendor/"
 
 #=================================================
-# SPECIFIC UPGRADE
-#=================================================
 # BUILD FROM SOURCES
 #=================================================
-ynh_script_progression --message="Building lxd from sources..." --weight=60
+ynh_script_progression "Building lxd from sources..."
 
 pushd "$install_dir/lxd"
 	export HOME=${HOME:-"/root/"}
 
-	ynh_exec_warn_less make deps
+	ynh_hide_warnings make deps
 	export CGO_CFLAGS="-I${GOPATH}dqlite/include/"
 	export CGO_LDFLAGS="-L${GOPATH}dqlite/.libs/"
 	export LD_LIBRARY_PATH="${GOPATH}dqlite/.libs/"
 	export CGO_LDFLAGS_ALLOW="(-Wl,-wrap,pthread_create)|(-Wl,-z,now)"
 
-	ynh_exec_warn_less make
+	ynh_hide_warnings make
 
 	mkdir -p /usr/local/lib/$app
 	mkdir -p /var/log/$app
@@ -70,18 +60,18 @@ pushd "$install_dir/lxd"
 	cp $install_dir/lxd/scripts/bash/lxd-client /etc/bash_completion.d/
 popd
 
-ynh_secure_remove --file="$install_dir/go"
-ynh_secure_remove --file="$install_dir/lxd"
+ynh_safe_rm "$install_dir/go"
+ynh_safe_rm "$install_dir/lxd"
 
 #=================================================
 # REAPPLY SYSTEM CONFIGURATIONS
 #=================================================
-ynh_script_progression --message="Upgrading system configurations related to $app..." --weight=1
+ynh_script_progression "Upgrading system configurations related to $app..."
 
 # Create a dedicated systemd config
 ynh_add_systemd_socket_config
 
-ynh_add_systemd_config
+ynh_config_add_systemd
 yunohost service add "$app" --log="/var/log/$app/$app.log"
 
 _ynh_add_dnsmasq
@@ -93,12 +83,12 @@ _ynh_set_subuid_subgid
 #=================================================
 # START SYSTEMD SERVICE
 #=================================================
-ynh_script_progression --message="Starting a systemd service..."
+ynh_script_progression "Starting $app's systemd service..."
 
-ynh_systemd_action --service_name="$app" --action="start" --log_path="/var/log/$app/$app.log"
+ynh_systemctl --service="$app" --action="start"
 
 #=================================================
 # END OF SCRIPT
 #=================================================
 
-ynh_script_progression --message="Upgrade of $app completed" --last
+ynh_script_progression "Upgrade of $app completed"
