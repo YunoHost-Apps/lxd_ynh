@@ -30,6 +30,7 @@ _ynh_remove_dnsmasq
 #=================================================
 # REMOVE CONTAINERS
 #=================================================
+
 # Remove the data directory if --purge option is used
 if [ "${YNH_APP_PURGE:-0}" -eq 1 ]; then
 	ynh_script_progression "Removing containers..."
@@ -39,6 +40,7 @@ fi
 #=================================================
 # CLOSE A PORT
 #=================================================
+
 if yunohost firewall list | grep -q "\- 67$"; then
 	ynh_script_progression "Closing port 67..."
 	ynh_hide_warnings yunohost firewall disallow Both 67
@@ -52,8 +54,6 @@ fi
 ynh_script_progression "Removing various files..."
 
 ynh_safe_rm "/usr/local/lib/$app"
-
-# Remove the log files
 
 ynh_safe_rm "/usr/local/bin/fuidshift"
 ynh_safe_rm "/usr/local/bin/lxc"

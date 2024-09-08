@@ -8,7 +8,6 @@ source /usr/share/yunohost/helpers
 #=================================================
 ynh_script_progression "Setting up source files..."
 
-# Download, check integrity, uncompress and patch the source from app.src
 ynh_setup_source --source_id="go" --dest_dir="$install_dir/go"
 ynh_setup_source  --source_id="main" --dest_dir="$install_dir/lxd"
 
@@ -49,7 +48,6 @@ ynh_safe_rm "$install_dir/lxd"
 #=================================================
 ynh_script_progression "Adding system configurations related to $app..."
 
-# Create a dedicated systemd config
 ynh_add_systemd_socket_config
 
 ynh_config_add_systemd
@@ -66,7 +64,6 @@ _ynh_set_subuid_subgid
 #=================================================
 ynh_script_progression "Starting $app's systemd service..."
 
-# Start a systemd service
 ynh_systemctl --service="$app" --action="start"
 
 #=================================================
