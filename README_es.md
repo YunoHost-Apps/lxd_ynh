@@ -36,7 +36,7 @@ LXD is a next generation system container and virtual machine manager. It offers
 
 ## Información para desarrolladores
 
-Por favor enviar sus correcciones a la [`branch testing`](https://github.com/YunoHost-Apps/lxd_ynh/tree/testing
+Por favor enviar sus correcciones a la [rama `testing`](https://github.com/YunoHost-Apps/lxd_ynh/tree/testing).
 
 Para probar la rama `testing`, sigue asÍ:
 
