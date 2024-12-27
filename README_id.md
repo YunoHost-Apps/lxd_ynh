@@ -5,7 +5,9 @@ Ini TIDAK boleh diedit dengan tangan.
 
 # LXD untuk YunoHost
 
-[![Tingkat integrasi](https://dash.yunohost.org/integration/lxd.svg)](https://ci-apps.yunohost.org/ci/apps/lxd/) ![Status kerja](https://ci-apps.yunohost.org/ci/badges/lxd.status.svg) ![Status pemeliharaan](https://ci-apps.yunohost.org/ci/badges/lxd.maintain.svg)
+[![Tingkat integrasi](https://apps.yunohost.org/badge/integration/lxd)](https://ci-apps.yunohost.org/ci/apps/lxd/)
+![Status kerja](https://apps.yunohost.org/badge/state/lxd)
+![Status pemeliharaan](https://apps.yunohost.org/badge/maintained/lxd)
 
 [![Pasang LXD dengan YunoHost](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=lxd)
 
