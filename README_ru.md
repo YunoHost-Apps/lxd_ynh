@@ -5,7 +5,9 @@
 
 # LXD для YunoHost
 
-[![Уровень интеграции](https://dash.yunohost.org/integration/lxd.svg)](https://ci-apps.yunohost.org/ci/apps/lxd/) ![Состояние работы](https://ci-apps.yunohost.org/ci/badges/lxd.status.svg) ![Состояние сопровождения](https://ci-apps.yunohost.org/ci/badges/lxd.maintain.svg)
+[![Уровень интеграции](https://apps.yunohost.org/badge/integration/lxd)](https://ci-apps.yunohost.org/ci/apps/lxd/)
+![Состояние работы](https://apps.yunohost.org/badge/state/lxd)
+![Состояние сопровождения](https://apps.yunohost.org/badge/maintained/lxd)
 
 [![Установите LXD с YunoHost](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=lxd)
 

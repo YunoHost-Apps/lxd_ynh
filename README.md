@@ -5,7 +5,9 @@ It shall NOT be edited by hand.
 
 # LXD for YunoHost
 
-[![Integration level](https://dash.yunohost.org/integration/lxd.svg)](https://ci-apps.yunohost.org/ci/apps/lxd/) ![Working status](https://ci-apps.yunohost.org/ci/badges/lxd.status.svg) ![Maintenance status](https://ci-apps.yunohost.org/ci/badges/lxd.maintain.svg)
+[![Integration level](https://apps.yunohost.org/badge/integration/lxd)](https://ci-apps.yunohost.org/ci/apps/lxd/)
+![Working status](https://apps.yunohost.org/badge/state/lxd)
+![Maintenance status](https://apps.yunohost.org/badge/maintained/lxd)
 
 [![Install LXD with YunoHost](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=lxd)
 
