@@ -42,8 +42,7 @@ pushd "$install_dir/lxd"
 		mkdir -p /usr/local/lib/$app
 		mkdir -p /var/log/$app
 		cp -a ${GOPATH}/dqlite/.libs/lib*.so* /usr/local/lib/$app/
-		cp ${GOPATH}/bin/{fuidshift,lxc,lxc-to-lxd,lxd,lxd-agent,lxd-benchmark,lxd-migrate,lxd-user} /usr/local/bin
-		cp $install_dir/lxd/scripts/bash/lxd-client /etc/bash_completion.d/
+		cp ${GOPATH}/bin/{lxc,lxc-to-lxd,lxd,lxd-agent,lxd-benchmark,lxd-metadata,lxd-migrate,lxd-user} /usr/local/bin
 	)
 popd
 
