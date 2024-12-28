@@ -5,7 +5,9 @@ Il NE doit PAS être modifié à la main.
 
 # LXD pour YunoHost
 
-[![Niveau d’intégration](https://dash.yunohost.org/integration/lxd.svg)](https://ci-apps.yunohost.org/ci/apps/lxd/) ![Statut du fonctionnement](https://ci-apps.yunohost.org/ci/badges/lxd.status.svg) ![Statut de maintenance](https://ci-apps.yunohost.org/ci/badges/lxd.maintain.svg)
+[![Niveau d’intégration](https://apps.yunohost.org/badge/integration/lxd)](https://ci-apps.yunohost.org/ci/apps/lxd/)
+![Statut du fonctionnement](https://apps.yunohost.org/badge/state/lxd)
+![Statut de maintenance](https://apps.yunohost.org/badge/maintained/lxd)
 
 [![Installer LXD avec YunoHost](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=lxd)
 
@@ -19,7 +21,7 @@ Il NE doit PAS être modifié à la main.
 LXD est un gestionnaire de conteneurs système et de machines virtuelles de nouvelle génération. Il offre une expérience utilisateur unifiée autour de systèmes Linux complets fonctionnant dans des conteneurs ou des machines virtuelles.
 
 
-**Version incluse :** 6.1~ynh1
+**Version incluse :** 6.2~ynh2
 
 **Démo :** <https://linuxcontainers.org/lxd/try-it/>
 

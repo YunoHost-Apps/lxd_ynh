@@ -12,7 +12,6 @@ ynh_restore "/var/log/$app/"
 
 ynh_restore "/usr/local/lib/$app/"
 
-ynh_restore "/usr/local/bin/fuidshift"
 ynh_restore "/usr/local/bin/lxc"
 ynh_restore "/usr/local/bin/lxc-to-lxd"
 ynh_restore "/usr/local/bin/lxd"

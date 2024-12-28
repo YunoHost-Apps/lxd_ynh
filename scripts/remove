@@ -55,7 +55,6 @@ ynh_script_progression "Removing various files..."
 
 ynh_safe_rm "/usr/local/lib/$app"
 
-ynh_safe_rm "/usr/local/bin/fuidshift"
 ynh_safe_rm "/usr/local/bin/lxc"
 ynh_safe_rm "/usr/local/bin/lxc-to-lxd"
 ynh_safe_rm "/usr/local/bin/lxd"
