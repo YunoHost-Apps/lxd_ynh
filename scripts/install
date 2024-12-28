@@ -1,20 +1,13 @@
 #!/bin/bash
 
-#=================================================
-# GENERIC START
-#=================================================
-# IMPORT GENERIC HELPERS
-#=================================================
-
 source _common.sh
 source /usr/share/yunohost/helpers
 
 #=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
 #=================================================
-ynh_script_progression --message="Setting up source files..." --weight=5
+ynh_script_progression "Setting up source files..."
 
-# Download, check integrity, uncompress and patch the source from app.src
 ynh_setup_source --source_id="go" --dest_dir="$install_dir/go"
 ynh_setup_source  --source_id="main" --dest_dir="$install_dir/lxd"
 
@@ -23,7 +16,7 @@ ynh_setup_source  --source_id="main" --dest_dir="$install_dir/lxd"
 #=================================================
 # BUILD FROM SOURCES
 #=================================================
-ynh_script_progression --message="Building lxd from sources..." --weight=60
+ynh_script_progression "Building lxd from sources..."
 
 pushd "$install_dir/lxd"
 	(
@@ -31,13 +24,13 @@ pushd "$install_dir/lxd"
 		export GOPATH="$install_dir/lxd/vendor/"
 		export HOME=${HOME:-"/root/"}
 
-		ynh_exec_warn_less make deps
+		ynh_hide_warnings make deps
 		export CGO_CFLAGS="-I${GOPATH}dqlite/include/"
 		export CGO_LDFLAGS="-L${GOPATH}dqlite/.libs/"
 		export LD_LIBRARY_PATH="${GOPATH}dqlite/.libs/"
 		export CGO_LDFLAGS_ALLOW="(-Wl,-wrap,pthread_create)|(-Wl,-z,now)"
 
-		ynh_exec_warn_less make
+		ynh_hide_warnings make
 
 		mkdir -p /usr/local/lib/$app
 		mkdir -p /var/log/$app
@@ -46,18 +39,17 @@ pushd "$install_dir/lxd"
 	)
 popd
 
-ynh_secure_remove --file="$install_dir/go"
-ynh_secure_remove --file="$install_dir/lxd"
+ynh_safe_rm "$install_dir/go"
+ynh_safe_rm "$install_dir/lxd"
 
 #=================================================
 # SYSTEM CONFIGURATION
 #=================================================
-ynh_script_progression --message="Adding system configurations related to $app..." --weight=1
+ynh_script_progression "Adding system configurations related to $app..."
 
-# Create a dedicated systemd config
 ynh_add_systemd_socket_config
 
-ynh_add_systemd_config
+ynh_config_add_systemd
 yunohost service add "$app" --log="/var/log/$app/$app.log"
 
 _ynh_add_dnsmasq
@@ -69,13 +61,12 @@ _ynh_set_subuid_subgid
 #=================================================
 # START SYSTEMD SERVICE
 #=================================================
-ynh_script_progression --message="Starting a systemd service..."
+ynh_script_progression "Starting $app's systemd service..."
 
-# Start a systemd service
-ynh_systemd_action --service_name="$app" --action="start" --log_path="/var/log/$app/$app.log"
+ynh_systemctl --service="$app" --action="start"
 
 #=================================================
 # END OF SCRIPT
 #=================================================
 
-ynh_script_progression --message="Installation of $app completed" --last
+ynh_script_progression "Installation of $app completed"

@@ -1,17 +1,13 @@
 #!/bin/bash
 
 #=================================================
-# COMMON VARIABLES
-#=================================================
-
-#=================================================
-# PERSONAL HELPERS
+# COMMON VARIABLES AND CUSTOM HELPERS
 #=================================================
 
 # Create a dedicated systemd socket config
 #
-# usage: ynh_add_systemd_config [--socket=socket] [--template=template]
-# usage: ynh_add_systemd_config [--socket=socket] [--template=template]  [--others_var="list of others variables to replace"]
+# usage: ynh_config_add_systemd [--socket=socket] [--template=template]
+# usage: ynh_config_add_systemd [--socket=socket] [--template=template]  [--others_var="list of others variables to replace"]
 # | arg: -s, --socket=     - socket name (optionnal, $app by default)
 # | arg: -t, --template=    - Name of template file (optionnal, this is 'systemd' by default, meaning ./conf/systemd.socket will be used as template)
 # | arg: -v, --others_var=  - List of others variables to replace separated by a space. For example: 'var_1 var_2 ...'
@@ -30,7 +26,7 @@
 #
 ynh_add_systemd_socket_config () {
     # Declare an array to define the options of this helper.
-    local legacy_args=stv
+    #REMOVEME? local legacy_args=stv
     local -A args_array=( [s]=socket= [t]=template= [v]=others_var= )
     local socket
     local template
@@ -42,16 +38,16 @@ ynh_add_systemd_socket_config () {
     others_var="${others_var:-}"
 
     finalsystemdconf="/etc/systemd/system/$socket.socket"
-    ynh_backup_if_checksum_is_different --file="$finalsystemdconf"
+    ynh_backup_if_checksum_is_different "$finalsystemdconf"
     cp ../conf/$template "$finalsystemdconf"
 
     # To avoid a break by set -u, use a void substitution ${var:-}. If the variable is not set, it's simply set with an empty variable.
     # Substitute in a nginx config file only if the variable is not empty
     if [ -n "${final_path:-}" ]; then
-        ynh_replace_string --match_string="__FINALPATH__" --replace_string="$final_path" --target_file="$finalsystemdconf"
+        ynh_replace --match="__FINALPATH__" --replace="$final_path" --file="$finalsystemdconf"
     fi
     if [ -n "${app:-}" ]; then
-        ynh_replace_string --match_string="__APP__" --replace_string="$app" --target_file="$finalsystemdconf"
+        ynh_replace --match="__APP__" --replace="$app" --file="$finalsystemdconf"
     fi
 
     # Replace all other variables given as arguments
@@ -59,10 +55,10 @@ ynh_add_systemd_socket_config () {
     do
         # ${var_to_replace^^} make the content of the variable on upper-cases
         # ${!var_to_replace} get the content of the variable named $var_to_replace
-        ynh_replace_string --match_string="__${var_to_replace^^}__" --replace_string="${!var_to_replace}" --target_file="$finalsystemdconf"
+        ynh_replace --match="__${var_to_replace^^}__" --replace="${!var_to_replace}" --file="$finalsystemdconf"
     done
 
-    ynh_store_file_checksum --file="$finalsystemdconf"
+    ynh_store_file_checksum "$finalsystemdconf"
 
     chown root: "$finalsystemdconf"
     systemctl enable "$socket.socket" --quiet
@@ -71,12 +67,12 @@ ynh_add_systemd_socket_config () {
 
 # Remove the dedicated systemd socket config
 #
-# usage: ynh_remove_systemd_config [--socket=socket]
+# usage: ynh_config_remove_systemd [--socket=socket]
 # | arg: -s, --socket=     - socket name (optionnal, $app by default)
 #
 ynh_remove_systemd_socket_config () {
     # Declare an array to define the options of this helper.
-    local legacy_args=s
+    #REMOVEME? local legacy_args=s
     local -A args_array=( [s]=socket= )
     local socket
     # Manage arguments with getopts
@@ -86,33 +82,33 @@ ynh_remove_systemd_socket_config () {
     local finalsystemdconf="/etc/systemd/system/$socket.socket"
     if [ -e "$finalsystemdconf" ]
     then
-        ynh_systemd_action --service_name="$socket.socket" --action=stop
+        ynh_systemctl --service="$socket.socket" --action=stop
         systemctl disable $socket.socket --quiet
-        ynh_secure_remove --file="$finalsystemdconf"
+        ynh_safe_rm "$finalsystemdconf"
         systemctl daemon-reload
     fi
 }
 
 _ynh_add_dnsmasq() {
-    ynh_add_config --template="dnsmasq.conf" --destination="/etc/dnsmasq.d/$app"
+    ynh_config_add --template="dnsmasq.conf" --destination="/etc/dnsmasq.d/$app"
 
-    ynh_systemd_action --service_name=dnsmasq --action=restart
+    ynh_systemctl --service=dnsmasq --action=restart
 }
 
 _ynh_remove_dnsmasq() {
-    ynh_secure_remove --file="/etc/dnsmasq.d/$app"
+    ynh_safe_rm "/etc/dnsmasq.d/$app"
 
-    ynh_systemd_action --service_name=dnsmasq --action=restart
+    ynh_systemctl --service=dnsmasq --action=restart
 }
 
 _ynh_add_ld_so() {
-    ynh_add_config --template="ld.so.conf" --destination="/etc/ld.so.conf.d/$app.conf"
+    ynh_config_add --template="ld.so.conf" --destination="/etc/ld.so.conf.d/$app.conf"
 
     ldconfig
 }
 
 _ynh_remove_ld_so() {
-    ynh_secure_remove --file="/etc/ld.so.conf.d/$app.conf"
+    ynh_safe_rm "/etc/ld.so.conf.d/$app.conf"
 
     ldconfig
 }
@@ -124,11 +120,3 @@ _ynh_set_subuid_subgid() {
 _ynh_unset_subuid_subgid() {
     sed -i "/# Added by lxd$/{N;/root:100000:65536/d}" /etc/sub{u,g}id
 }
-
-#=================================================
-# EXPERIMENTAL HELPERS
-#=================================================
-
-#=================================================
-# FUTURE OFFICIAL HELPERS
-#=================================================
