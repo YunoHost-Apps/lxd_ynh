@@ -5,3 +5,4 @@ test_format = 1.0
 [default]
 
     test_upgrade_from.b66ae64c2dae8595c817f058c4e45cd7cc40ac64.name = "5.16~ynh1"
+    test_upgrade_from.891fb3187e2b1f88b8ce6332c6e4b741667634f5.name = "6.2~ynh2"

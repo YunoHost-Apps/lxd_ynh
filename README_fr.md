@@ -21,7 +21,7 @@ Il NE doit PAS être modifié à la main.
 LXD est un gestionnaire de conteneurs système et de machines virtuelles de nouvelle génération. Il offre une expérience utilisateur unifiée autour de systèmes Linux complets fonctionnant dans des conteneurs ou des machines virtuelles.
 
 
-**Version incluse :** 6.2~ynh2
+**Version incluse :** 6.2~ynh3
 
 **Démo :** <https://linuxcontainers.org/lxd/try-it/>
 

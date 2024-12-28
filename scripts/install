@@ -15,8 +15,10 @@ source /usr/share/yunohost/helpers
 ynh_script_progression --message="Setting up source files..." --weight=5
 
 # Download, check integrity, uncompress and patch the source from app.src
-ynh_setup_source --source_id="go" --dest_dir="$install_dir/go"
-ynh_setup_source  --source_id="main" --dest_dir="$install_dir/lxd"
+install_dir="$(mktemp -d)"
+export HOME=${HOME:-"/root/"}
+ynh_exec_warn_less ynh_install_go --go_version=$GO_VERSION
+ynh_setup_source  --source_id="main" --dest_dir="$install_dir"
 
 #=================================================
 # SPECIFIC SETUP
@@ -25,29 +27,26 @@ ynh_setup_source  --source_id="main" --dest_dir="$install_dir/lxd"
 #=================================================
 ynh_script_progression --message="Building lxd from sources..." --weight=60
 
-pushd "$install_dir/lxd"
-	(
-		export PATH="$install_dir/go/bin:$PATH"
-		export GOPATH="$install_dir/lxd/vendor/"
-		export HOME=${HOME:-"/root/"}
+pushd "$install_dir"
+	export GOPATH="$install_dir/vendor/"
+	ynh_use_go
 
-		ynh_exec_warn_less make deps
-		export CGO_CFLAGS="-I${GOPATH}dqlite/include/"
-		export CGO_LDFLAGS="-L${GOPATH}dqlite/.libs/"
-		export LD_LIBRARY_PATH="${GOPATH}dqlite/.libs/"
-		export CGO_LDFLAGS_ALLOW="(-Wl,-wrap,pthread_create)|(-Wl,-z,now)"
+	ynh_exec_warn_less make deps
+	export CGO_CFLAGS="-I$install_dir/vendor/dqlite/include/"
+	export CGO_LDFLAGS="-L$install_dir/vendor/dqlite/.libs/"
+	export LD_LIBRARY_PATH="$install_dir/vendor/dqlite/.libs/"
+	export CGO_LDFLAGS_ALLOW="(-Wl,-wrap,pthread_create)|(-Wl,-z,now)"
 
-		ynh_exec_warn_less make
+	ynh_exec_warn_less make
 
-		mkdir -p /usr/local/lib/$app
-		mkdir -p /var/log/$app
-		cp -a ${GOPATH}/dqlite/.libs/lib*.so* /usr/local/lib/$app/
-		cp ${GOPATH}/bin/{lxc,lxc-to-lxd,lxd,lxd-agent,lxd-benchmark,lxd-metadata,lxd-migrate,lxd-user} /usr/local/bin
-	)
+	mkdir -p /usr/local/lib/$app
+	mkdir -p /var/log/$app
+	cp -a $install_dir/vendor/dqlite/.libs/lib*.so* /usr/local/lib/$app/
+	cp $install_dir/vendor/bin/{lxc,lxc-to-lxd,lxd,lxd-agent,lxd-benchmark,lxd-metadata,lxd-migrate,lxd-user} /usr/local/bin
 popd
 
-ynh_secure_remove --file="$install_dir/go"
-ynh_secure_remove --file="$install_dir/lxd"
+ynh_remove_go
+ynh_secure_remove --file="$install_dir"
 
 #=================================================
 # SYSTEM CONFIGURATION

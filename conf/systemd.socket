@@ -2,9 +2,10 @@
 Description=LXD - unix socket
 
 [Socket]
+FileDescriptorName=unix
 ListenStream=/var/lib/__APP__/unix.socket
-SocketMode=0660
 SocketGroup=__APP__
+SocketMode=0660
 Service=__APP__.service
 
 [Install]
