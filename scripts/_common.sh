@@ -1,7 +1,13 @@
 #!/bin/bash
 
 #=================================================
-# COMMON VARIABLES AND CUSTOM HELPERS
+# COMMON VARIABLES
+#=================================================
+
+GO_VERSION="1"
+
+#=================================================
+# PERSONAL HELPERS
 #=================================================
 
 # Create a dedicated systemd socket config
