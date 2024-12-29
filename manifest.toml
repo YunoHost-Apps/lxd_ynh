@@ -33,8 +33,6 @@ ram.runtime = "500M"
 [install]
 
 [resources]
-    [resources.sources]
-
     [resources.sources.main]
     url = "https://github.com/canonical/lxd/releases/download/lxd-6.2/lxd-6.2.tar.gz"
     sha256 = "44f98776b9e9e1d720da89b520d75bf8b7c3467507b2d24ada207a160ec961f3"

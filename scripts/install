@@ -11,7 +11,7 @@ ynh_script_progression "Setting up source files..."
 # Download, check integrity, uncompress and patch the source from app.src
 install_dir="$(mktemp -d)"
 export HOME=${HOME:-"/root/"}
-ynh_exec_warn_less ynh_install_go --go_version=$GO_VERSION
+ynh_hide_warnings ynh_go_install
 ynh_setup_source  --source_id="main" --dest_dir="$install_dir"
 
 #=================================================
@@ -22,16 +22,14 @@ ynh_setup_source  --source_id="main" --dest_dir="$install_dir"
 ynh_script_progression "Building lxd from sources..."
 
 pushd "$install_dir"
-	export GOPATH="$install_dir/vendor/"
-	ynh_use_go
-
-	ynh_exec_warn_less make deps
+	ynh_hide_warnings make deps
 	export CGO_CFLAGS="-I$install_dir/vendor/dqlite/include/"
 	export CGO_LDFLAGS="-L$install_dir/vendor/dqlite/.libs/"
 	export LD_LIBRARY_PATH="$install_dir/vendor/dqlite/.libs/"
 	export CGO_LDFLAGS_ALLOW="(-Wl,-wrap,pthread_create)|(-Wl,-z,now)"
+	export GOPATH="$install_dir/vendor/"
 
-	ynh_exec_warn_less make
+	ynh_hide_warnings make
 
 	mkdir -p /usr/local/lib/$app
 	mkdir -p /var/log/$app
@@ -39,7 +37,7 @@ pushd "$install_dir"
 	cp $install_dir/vendor/bin/{lxc,lxc-to-lxd,lxd,lxd-agent,lxd-benchmark,lxd-metadata,lxd-migrate,lxd-user} /usr/local/bin
 popd
 
-ynh_remove_go
+ynh_go_remove
 ynh_safe_rm "$install_dir"
 
 #=================================================
