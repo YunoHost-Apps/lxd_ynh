@@ -4,7 +4,7 @@
 # COMMON VARIABLES
 #=================================================
 
-go_version="1.23.4"
+go_version="1"
 
 #=================================================
 # PERSONAL HELPERS
@@ -32,7 +32,7 @@ go_version="1.23.4"
 #
 ynh_add_systemd_socket_config () {
     # Declare an array to define the options of this helper.
-    #REMOVEME? local legacy_args=stv
+    local legacy_args=stv
     local -A args_array=( [s]=socket= [t]=template= [v]=others_var= )
     local socket
     local template
@@ -78,7 +78,7 @@ ynh_add_systemd_socket_config () {
 #
 ynh_remove_systemd_socket_config () {
     # Declare an array to define the options of this helper.
-    #REMOVEME? local legacy_args=s
+    local legacy_args=s
     local -A args_array=( [s]=socket= )
     local socket
     # Manage arguments with getopts
