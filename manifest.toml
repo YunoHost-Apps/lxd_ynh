@@ -7,7 +7,7 @@ name = "LXD"
 description.en = "Manage virtual machines and system containers"
 description.fr = "Gérer les machines virtuelles et les conteneurs système"
 
-version = "6.3~ynh1"
+version = "6.3~ynh2"
 
 maintainers = ["kay0u"]
 
