@@ -7,7 +7,7 @@ name = "LXD"
 description.en = "Offers a user experience similar to virtual machines but using Linux containers instead."
 description.fr = "Offre une expérience utilisateur similaire aux machines virtuelles mais en utilisant des conteneurs Linux à la place."
 
-version = "6.2~ynh3"
+version = "6.3~ynh1"
 
 maintainers = ["kay0u"]
 
@@ -35,8 +35,8 @@ ram.runtime = "500M"
     [resources.sources]
 
     [resources.sources.main]
-    url = "https://github.com/canonical/lxd/releases/download/lxd-6.2/lxd-6.2.tar.gz"
-    sha256 = "44f98776b9e9e1d720da89b520d75bf8b7c3467507b2d24ada207a160ec961f3"
+    url = "https://github.com/canonical/lxd/releases/download/lxd-6.3/lxd-6.3.tar.gz"
+    sha256 = "68b379e94884f859fbfe078e4c0a46322ffd6f23209fa0b28d936676e7eada4d"
 
     autoupdate.strategy = "latest_github_release"
     autoupdate.asset = "^lxd-.*.tar.gz$"
