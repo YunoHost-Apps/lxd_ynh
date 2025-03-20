@@ -59,11 +59,11 @@ pushd "$install_dir"
 	# No longer exists
 	if [ -f "/usr/local/bin/fuidshift" ]
 	then
-		ynh_secure_remove --file="/usr/local/bin/fuidshift"
+		ynh_safe_rm "/usr/local/bin/fuidshift"
 	fi
 	if [ -f "/etc/bash_completion.d/lxd-client" ]
 	then
-		ynh_secure_remove --file="/etc/bash_completion.d/lxd-client"
+		ynh_safe_rm "/etc/bash_completion.d/lxd-client"
 	fi
 	cp -f $install_dir/go/$(ynh_app_setting_get --key="go_version")/bin/{lxc,lxc-to-lxd,lxd,lxd-agent,lxd-benchmark,lxd-metadata,lxd-migrate,lxd-user} /usr/local/bin
 popd
