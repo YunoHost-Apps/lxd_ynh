@@ -20,7 +20,8 @@
 
 LXD is a next generation system container and virtual machine manager. It offers a unified user experience around full Linux systems running inside containers or virtual machines.
 
-**分发版本：** 6.3~ynh1
+
+**分发版本：** 6.3~ynh2
 
 **演示：** <https://linuxcontainers.org/lxd/try-it/>
 
