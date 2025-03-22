@@ -17,9 +17,9 @@ if ynh_hide_warnings yunohost service status "$app" >/dev/null; then
     yunohost service remove "$app"
 fi
 
-# Remove the dedicated systemd config
-ynh_hide_warnings ynh_remove_systemd_socket_config
-ynh_hide_warnings ynh_config_remove_systemd
+ynh_config_remove_systemd_socket
+
+ynh_config_remove_systemd
 
 # Stop LXC systemd services for dnsmasq.
 ynh_systemctl --service="lxc-net" --action="stop"
