@@ -4,10 +4,10 @@ packaging_format = 2
 
 id = "lxd"
 name = "LXD"
-description.en = "Offers a user experience similar to virtual machines but using Linux containers instead."
-description.fr = "Offre une expérience utilisateur similaire aux machines virtuelles mais en utilisant des conteneurs Linux à la place."
+description.en = "Manage virtual machines and system containers"
+description.fr = "Gérer les machines virtuelles et les conteneurs système"
 
-version = "6.3~ynh1"
+version = "6.3~ynh2"
 
 maintainers = ["kay0u"]
 
@@ -20,11 +20,15 @@ code = "https://github.com/canonical/lxd"
 cpe = "cpe:2.3:a:canonical:lxd"
 
 [integration]
-yunohost = ">= 11.2"
+yunohost = ">= 11.2.30"
+helpers_version = "2.1"
 architectures = "all"
 multi_instance = false
+
 ldap = "not_relevant"
+
 sso = "not_relevant"
+
 disk = "500M"
 ram.build = "600M"
 ram.runtime = "500M"
@@ -32,8 +36,6 @@ ram.runtime = "500M"
 [install]
 
 [resources]
-    [resources.sources]
-
     [resources.sources.main]
     url = "https://github.com/canonical/lxd/releases/download/lxd-6.3/lxd-6.3.tar.gz"
     sha256 = "68b379e94884f859fbfe078e4c0a46322ffd6f23209fa0b28d936676e7eada4d"

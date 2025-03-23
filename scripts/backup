@@ -1,8 +1,6 @@
 #!/bin/bash
 
 #=================================================
-# GENERIC START
-#=================================================
 # IMPORT GENERIC HELPERS
 #=================================================
 
@@ -10,43 +8,38 @@
 source ../settings/scripts/_common.sh
 source /usr/share/yunohost/helpers
 
-#=================================================
-# DECLARE DATA AND CONF FILES TO BACKUP
-#=================================================
-ynh_print_info --message="Declaring files to be backed up..."
+ynh_print_info "Declaring files to be backed up..."
 
 #=================================================
-# SPECIFIC BACKUP
-#=================================================
-# BACKUP SYSTEMD
+# BACKUP SYSTEM CONFIGURATION
 #=================================================
 
-ynh_backup --src_path="/etc/systemd/system/$app.service"
-ynh_backup --src_path="/etc/systemd/system/$app.socket"
+ynh_backup "/etc/systemd/system/$app.service"
+ynh_backup "/etc/systemd/system/$app.socket"
 
 #=================================================
 # BACKUP VARIOUS FILES
 #=================================================
 
-ynh_backup --src_path="/var/log/$app/"
+ynh_backup "/var/log/$app/"
 
-ynh_backup --src_path="/usr/local/lib/$app/"
+ynh_backup "/usr/local/lib/$app/"
 
-ynh_backup --src_path="/usr/local/bin/lxc"
-ynh_backup --src_path="/usr/local/bin/lxc-to-lxd"
-ynh_backup --src_path="/usr/local/bin/lxd"
-ynh_backup --src_path="/usr/local/bin/lxd-agent"
-ynh_backup --src_path="/usr/local/bin/lxd-benchmark"
-ynh_backup --src_path="/usr/local/bin/lxd-metadata"
-ynh_backup --src_path="/usr/local/bin/lxd-migrate"
-ynh_backup --src_path="/usr/local/bin/lxd-user"
+ynh_backup "/usr/local/bin/lxc"
+ynh_backup "/usr/local/bin/lxc-to-lxd"
+ynh_backup "/usr/local/bin/lxd"
+ynh_backup "/usr/local/bin/lxd-agent"
+ynh_backup "/usr/local/bin/lxd-benchmark"
+ynh_backup "/usr/local/bin/lxd-metadata"
+ynh_backup "/usr/local/bin/lxd-migrate"
+ynh_backup "/usr/local/bin/lxd-user"
 
-ynh_backup --src_path="/etc/dnsmasq.d/lxd"
+ynh_backup "/etc/dnsmasq.d/lxd"
 
-ynh_backup --src_path="/etc/ld.so.conf.d/$app.conf"
+ynh_backup "/etc/ld.so.conf.d/$app.conf"
 
 #=================================================
 # END OF SCRIPT
 #=================================================
 
-ynh_print_info --message="Backup script completed for $app. (YunoHost will then actually copy those files to the archive)."
+ynh_print_info "Backup script completed for $app. (YunoHost will then actually copy those files to the archive)."
