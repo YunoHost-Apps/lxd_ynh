@@ -72,7 +72,7 @@ ynh_go_remove
 ynh_safe_rm "$install_dir"
 
 #=================================================
-# REAPPLY SYSTEM CONFIGURATIONS
+# REAPPLY SYSTEM CONFIGURATION
 #=================================================
 ynh_script_progression "Upgrading system configurations related to $app..."
 
