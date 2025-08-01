@@ -7,7 +7,7 @@ name = "LXD"
 description.en = "Manage virtual machines and system containers"
 description.fr = "Gérer les machines virtuelles et les conteneurs système"
 
-version = "6.3~ynh2"
+version = "6.5~ynh1"
 
 maintainers = ["kay0u"]
 
@@ -37,8 +37,8 @@ ram.runtime = "500M"
 
 [resources]
     [resources.sources.main]
-    url = "https://github.com/canonical/lxd/releases/download/lxd-6.3/lxd-6.3.tar.gz"
-    sha256 = "68b379e94884f859fbfe078e4c0a46322ffd6f23209fa0b28d936676e7eada4d"
+    url = "https://github.com/canonical/lxd/releases/download/lxd-6.5/lxd-6.5.tar.gz"
+    sha256 = "f5a0b8a4eb6cb259497bc5587c09d080193cc908a2696d54e071863d2a14c9cc"
 
     autoupdate.strategy = "latest_github_release"
     autoupdate.asset = "^lxd-.*.tar.gz$"
