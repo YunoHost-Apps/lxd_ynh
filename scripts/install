@@ -37,7 +37,8 @@ pushd "$install_dir"
 
 	mkdir -p /usr/local/lib/$app
 	mkdir -p /var/log/$app
-	cp -a $install_dir/vendor/dqlite/.libs/lib*.so* /usr/local/lib/$app/
+	cp -a $GOPATH/dqlite/.libs/lib*.so* /usr/local/lib/$app/
+	cp -a $GOPATH/liblxc/lib/x86_64-linux-gnu/lib*.so* /usr/local/lib/$app/
 	cp $GOPATH/bin/{lxc,lxd,lxd-agent,lxd-benchmark,lxd-migrate,lxd-user} /usr/local/bin
 popd
 
