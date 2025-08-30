@@ -7,7 +7,7 @@ name = "LXD"
 description.en = "Manage virtual machines and system containers"
 description.fr = "Gérer les machines virtuelles et les conteneurs système"
 
-version = "6.5~ynh1"
+version = "6.5~ynh2"
 
 maintainers = ["kay0u"]
 
@@ -58,6 +58,8 @@ ram.runtime = "500M"
         "libacl1-dev",
         "libapparmor-dev",
         "libcap-dev",
+        "liblxc1",
+        "lxc-dev",
         "libseccomp-dev",
         "libsqlite3-dev",
         "libtool",
