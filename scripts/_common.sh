@@ -4,7 +4,7 @@
 # COMMON VARIABLES
 #=================================================
 
-go_version="1"
+#REMOVEME? go_version="1"
 
 #=================================================
 # PERSONAL HELPERS

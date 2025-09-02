@@ -15,7 +15,7 @@ ynh_script_progression "Setting up source files..."
 # Download, check integrity, uncompress and patch the source from app.src
 install_dir="$(mktemp -d)"
 export HOME=$install_dir
-ynh_hide_warnings ynh_go_install
+#REMOVEME? ynh_hide_warnings #REMOVEME? ynh_go_install
 ynh_setup_source  --source_id="main" --dest_dir="$install_dir"
 
 #=================================================
@@ -41,7 +41,7 @@ pushd "$install_dir"
 	cp $GOPATH/bin/{lxc,lxd,lxd-agent,lxd-benchmark,lxd-migrate,lxd-user} /usr/local/bin
 popd
 
-ynh_go_remove
+#REMOVEME? ynh_go_remove
 ynh_safe_rm "$install_dir"
 
 #=================================================
