@@ -26,11 +26,9 @@ ynh_backup "/var/log/$app/"
 ynh_backup "/usr/local/lib/$app/"
 
 ynh_backup "/usr/local/bin/lxc"
-ynh_backup "/usr/local/bin/lxc-to-lxd"
 ynh_backup "/usr/local/bin/lxd"
 ynh_backup "/usr/local/bin/lxd-agent"
 ynh_backup "/usr/local/bin/lxd-benchmark"
-ynh_backup "/usr/local/bin/lxd-metadata"
 ynh_backup "/usr/local/bin/lxd-migrate"
 ynh_backup "/usr/local/bin/lxd-user"
 

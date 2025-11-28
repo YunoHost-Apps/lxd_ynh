@@ -20,10 +20,12 @@ ynh_systemctl --service="$app" --action="stop"
 #=================================================
 ynh_script_progression "Ensuring downward compatibility..."
 
-# Remove old file
-if [ -f "/usr/local/bin/lxd-p2c" ]; then
-	ynh_safe_rm "/usr/local/bin/lxd-p2c"
-fi
+# Remove old files
+for file in "lxd-p2c" "lxc-to-lxd" "lxd-metadata" ; do
+	if [ -f "/usr/local/bin/$file" ]; then
+		ynh_safe_rm "/usr/local/bin/$file"
+	fi
+done
 
 sed -i "/root:1000000:65536 # Added by lxd#/d" /etc/sub{u,g}id
 
@@ -55,7 +57,7 @@ pushd "$install_dir"
 
 	mkdir -p /usr/local/lib/$app
 	mkdir -p /var/log/$app
-	cp -a $install_dir/vendor/dqlite/.libs/lib*.so* /usr/local/lib/$app/
+	cp -a $GOPATH/dqlite/.libs/lib*.so* /usr/local/lib/$app/
 	# No longer exists
 	if [ -f "/usr/local/bin/fuidshift" ]
 	then
@@ -65,14 +67,14 @@ pushd "$install_dir"
 	then
 		ynh_safe_rm "/etc/bash_completion.d/lxd-client"
 	fi
-	cp -f $install_dir/go/$(ynh_app_setting_get --key="go_version")/bin/{lxc,lxc-to-lxd,lxd,lxd-agent,lxd-benchmark,lxd-metadata,lxd-migrate,lxd-user} /usr/local/bin
+	cp -f $GOPATH/bin/{lxc,lxd,lxd-agent,lxd-benchmark,lxd-migrate,lxd-user} /usr/local/bin
 popd
 
 ynh_go_remove
 ynh_safe_rm "$install_dir"
 
 #=================================================
-# REAPPLY SYSTEM CONFIGURATIONS
+# REAPPLY SYSTEM CONFIGURATION
 #=================================================
 ynh_script_progression "Upgrading system configurations related to $app..."
 
