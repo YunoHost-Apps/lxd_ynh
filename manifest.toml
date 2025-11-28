@@ -26,7 +26,6 @@ architectures = "all"
 multi_instance = false
 
 ldap = "not_relevant"
-
 sso = "not_relevant"
 
 disk = "500M"
@@ -87,4 +86,4 @@ ram.runtime = "500M"
     ]
 
     [resources.go]
-    version = "1"
+    version = "1.25"
