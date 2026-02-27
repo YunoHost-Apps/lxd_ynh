@@ -44,9 +44,9 @@ ram.runtime = "500M"
     autoupdate.asset = "^lxd-.*.tar.gz$"
     autoupdate.version_regex = "^lxd-(.*)$"
 
-    [resources.install_dir]
-
     [resources.system_user]
+
+    [resources.install_dir]
 
     [resources.go]
     version = "1.26"
