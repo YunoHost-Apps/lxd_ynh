@@ -71,11 +71,15 @@ ram.runtime = "500M"
         "ninja-build",
         "pkg-config",
         "python3-venv",
+        "xfslibs-dev",
+        "dnsmasq-base",
         "iproute2",
         "nftables",
         "rsync",
         "squashfs-tools",
+        "squashfs-tools-ng",
         "tar",
+        "uidmap",
         "xz-utils",
 
         # For lvm2
@@ -83,5 +87,10 @@ ram.runtime = "500M"
         "thin-provisioning-tools",
 
         # For btrfs
-        "btrfs-progs"
+        "btrfs-progs",
+
+        # For virtual machines
+        "ovmf",
+        "qemu-system-x86",
+        "qemu-utils"
     ]
