@@ -77,6 +77,8 @@ _ynh_remove_ld_so() {
 }
 
 _ynh_set_subuid_subgid() {
+    # Remove existing entry first to avoid duplicates on upgrade
+    _ynh_unset_subuid_subgid
     echo -e "# Added by lxd\nroot:100000:65536" | tee -a /etc/subuid /etc/subgid
 }
 
