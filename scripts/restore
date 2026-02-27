@@ -52,9 +52,9 @@ ldconfig
 _ynh_set_subuid_subgid
 
 #=================================================
-# RELOAD NGINX AND PHP-FPM OR THE APP SERVICE
+# START SYSTEMD SERVICE
 #=================================================
-ynh_script_progression "Reloading NGINX web server and $app's service..."
+ynh_script_progression "Starting $app's systemd service..."
 
 ynh_systemctl --service="$app" --action="start"
 
