@@ -38,7 +38,7 @@ pushd "$install_dir"
 	mkdir -p /usr/local/lib/$app
 	mkdir -p /var/log/$app
 	cp -a $GOPATH/dqlite/.libs/lib*.so* /usr/local/lib/$app/
-	cp $GOPATH/bin/{lxc,lxd,lxd-agent,lxd-benchmark,lxd-migrate,lxd-user} /usr/local/bin
+	cp $GOPATH/bin/{lxc,lxd,lxd-agent,lxd-benchmark,lxd-convert,lxd-user} /usr/local/bin
 popd
 
 ynh_go_remove

@@ -63,7 +63,7 @@ ynh_safe_rm "/usr/local/bin/lxc"
 ynh_safe_rm "/usr/local/bin/lxd"
 ynh_safe_rm "/usr/local/bin/lxd-agent"
 ynh_safe_rm "/usr/local/bin/lxd-benchmark"
-ynh_safe_rm "/usr/local/bin/lxd-migrate"
+ynh_safe_rm "/usr/local/bin/lxd-convert"
 ynh_safe_rm "/usr/local/bin/lxd-user"
 ynh_safe_rm "/etc/bash_completion.d/lxd-client"
 
