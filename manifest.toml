@@ -20,7 +20,7 @@ code = "https://github.com/canonical/lxd"
 cpe = "cpe:2.3:a:canonical:lxd"
 
 [integration]
-yunohost = ">= 11.2.30"
+yunohost = ">= 12.1.17"
 helpers_version = "2.1"
 architectures = "all"
 multi_instance = false
@@ -44,7 +44,12 @@ ram.runtime = "500M"
     autoupdate.asset = "^lxd-.*.tar.gz$"
     autoupdate.version_regex = "^lxd-(.*)$"
 
+    [resources.install_dir]
+
     [resources.system_user]
+
+    [resources.go]
+    version = "1.26"
 
     [resources.apt]
     packages = [
