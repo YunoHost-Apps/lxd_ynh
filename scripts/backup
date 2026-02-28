@@ -29,7 +29,7 @@ ynh_backup "/usr/local/bin/lxc"
 ynh_backup "/usr/local/bin/lxd"
 ynh_backup "/usr/local/bin/lxd-agent"
 ynh_backup "/usr/local/bin/lxd-benchmark"
-ynh_backup "/usr/local/bin/lxd-migrate"
+ynh_backup "/usr/local/bin/lxd-convert"
 ynh_backup "/usr/local/bin/lxd-user"
 
 ynh_backup "/etc/dnsmasq.d/lxd"

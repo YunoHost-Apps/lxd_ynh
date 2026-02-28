@@ -25,8 +25,8 @@ ynh_restore "/usr/local/bin/lxd-agent"
 chmod 755 "/usr/local/bin/lxd-agent"
 ynh_restore "/usr/local/bin/lxd-benchmark"
 chmod 755 "/usr/local/bin/lxd-benchmark"
-ynh_restore "/usr/local/bin/lxd-migrate"
-chmod 755 "/usr/local/bin/lxd-migrate"
+ynh_restore "/usr/local/bin/lxd-convert"
+chmod 755 "/usr/local/bin/lxd-convert"
 ynh_restore "/usr/local/bin/lxd-user"
 chmod 755 "/usr/local/bin/lxd-user"
 
@@ -52,9 +52,9 @@ ldconfig
 _ynh_set_subuid_subgid
 
 #=================================================
-# RELOAD NGINX AND PHP-FPM OR THE APP SERVICE
+# START SYSTEMD SERVICE
 #=================================================
-ynh_script_progression "Reloading NGINX web server and $app's service..."
+ynh_script_progression "Starting $app's systemd service..."
 
 ynh_systemctl --service="$app" --action="start"
 
