@@ -29,7 +29,7 @@ _ynh_remove_ld_so
 
 _ynh_unset_subuid_subgid
 
-_ynh_remove_dnsmasq
+_ynh_remove_network_sync
 
 #=================================================
 # REMOVE CONTAINERS

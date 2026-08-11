@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+#
+# Run after every nftables restart. The 'flush ruleset' of /etc/nftables.conf
+# destroys the rules of LXD, which only creates them when it sets a network up.
+
+set -u
+
+export PATH="/usr/local/bin:$PATH"
+
+_reapply_rules() {
+    local network="$1"
+    local key value
+
+    for key in ipv4.dhcp ipv6.dhcp; do
+        value="$(timeout 30 lxc network get "$network" "$key")" || return 1
+
+        # Leave alone a key the admin set to false
+        if [[ -z "$value" ]]; then
+            timeout 30 lxc network set "$network" "$key=true" || return 1
+            timeout 30 lxc network unset "$network" "$key"
+            return
+        elif [[ "$value" == "true" ]]; then
+            timeout 30 lxc network unset "$network" "$key" || return 1
+            timeout 30 lxc network set "$network" "$key=true"
+            return
+        fi
+    done
+
+    echo "Could not make LXD recreate the firewall rules of $network" >&2
+    return 1
+}
+
+# The set of /etc/nftables.d/lxd.conf has just been reloaded empty
+/usr/local/bin/lxd-network-sync
+
+systemctl is-active --quiet lxd || exit 0
+
+for network in /var/lib/lxd/networks/*; do
+    network="${network##*/}"
+
+    [[ -d "/sys/class/net/$network/bridge" ]] || continue
+
+    _reapply_rules "$network" || true
+done
+
+exit 0

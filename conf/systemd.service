@@ -8,6 +8,8 @@ Documentation=man:lxd(1)
 Environment=LXD_OVMF_PATH=/usr/share/ovmf/x64
 ExecStart=/usr/local/bin/__APP__ --group=__APP__ --logfile=/var/log/__APP__/__APP__.log
 ExecStartPost=/usr/local/bin/__APP__ waitready --timeout=600
+# __APP__ deletes its bridges when it stops, and there is no udev in a container
+ExecStartPost=-/usr/local/bin/__APP__-network-sync
 ExecStop=/usr/local/bin/__APP__ shutdown
 KillMode=process
 TimeoutStartSec=600s
