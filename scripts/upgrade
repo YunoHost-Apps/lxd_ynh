@@ -29,6 +29,9 @@ done
 
 sed -i "/root:1000000:65536 # Added by lxd#/d" /etc/sub{u,g}id
 
+# /etc/dnsmasq.d/lxd is now generated, it is no longer a config template
+ynh_delete_file_checksum "/etc/dnsmasq.d/$app"
+
 #=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
 #=================================================
@@ -81,7 +84,7 @@ ynh_config_add_systemd_socket
 ynh_config_add_systemd
 yunohost service add "$app" --log="/var/log/$app/$app.log"
 
-_ynh_add_dnsmasq
+_ynh_add_network_sync
 
 _ynh_add_ld_so
 

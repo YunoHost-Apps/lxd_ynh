@@ -1,0 +1,6 @@
+[Unit]
+Description=Sync the configuration of the host with the networks of __APP__
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/__APP__-network-sync

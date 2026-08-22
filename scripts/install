@@ -52,7 +52,7 @@ ynh_config_add_systemd_socket
 ynh_config_add_systemd
 yunohost service add "$app" --log="/var/log/$app/$app.log"
 
-_ynh_add_dnsmasq
+_ynh_add_network_sync
 
 _ynh_add_ld_so
 

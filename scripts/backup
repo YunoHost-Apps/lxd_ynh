@@ -32,8 +32,6 @@ ynh_backup "/usr/local/bin/lxd-benchmark"
 ynh_backup "/usr/local/bin/lxd-convert"
 ynh_backup "/usr/local/bin/lxd-user"
 
-ynh_backup "/etc/dnsmasq.d/lxd"
-
 ynh_backup "/etc/ld.so.conf.d/$app.conf"
 
 #=================================================

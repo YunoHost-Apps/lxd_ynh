@@ -43,8 +43,7 @@ systemctl daemon-reload
 
 yunohost service add "$app" --log="/var/log/$app/$app.log"
 
-ynh_restore "/etc/dnsmasq.d/lxd"
-systemctl restart dnsmasq
+_ynh_add_network_sync
 
 ynh_restore "/etc/ld.so.conf.d/$app.conf"
 ldconfig

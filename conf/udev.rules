@@ -1,0 +1,4 @@
+ACTION=="add", SUBSYSTEM=="net", ENV{DEVTYPE}=="bridge", TAG+="systemd", ENV{SYSTEMD_WANTS}="__APP__-network-sync.service"
+
+# SYSTEMD_WANTS is ignored on remove, and systemctl must not block inside udev
+ACTION=="remove", SUBSYSTEM=="net", ENV{DEVTYPE}=="bridge", RUN+="/usr/bin/systemctl --no-block start __APP__-network-sync.service"
