@@ -21,11 +21,14 @@ ynh_systemctl --service="$app" --action="stop"
 ynh_script_progression "Ensuring downward compatibility..."
 
 # Remove old files
-for file in "lxd-p2c" "lxc-to-lxd" "lxd-metadata" "lxd-migrate" ; do
+for file in "lxd-p2c" "lxc-to-lxd" "lxd-metadata" "lxd-migrate" "fuidshift" ; do
 	if [ -f "/usr/local/bin/$file" ]; then
 		ynh_safe_rm "/usr/local/bin/$file"
 	fi
 done
+if [ -f "/etc/bash_completion.d/lxd-client" ]; then
+	ynh_safe_rm "/etc/bash_completion.d/lxd-client"
+fi
 
 sed -i "/root:1000000:65536 # Added by lxd#/d" /etc/sub{u,g}id
 
@@ -33,46 +36,13 @@ sed -i "/root:1000000:65536 # Added by lxd#/d" /etc/sub{u,g}id
 ynh_delete_file_checksum "/etc/dnsmasq.d/$app"
 
 #=================================================
-# DOWNLOAD, CHECK AND UNPACK SOURCE
-#=================================================
-ynh_script_progression "Setting up source files..."
-
-# Download, check integrity, uncompress and patch the source from app.src
-build_dir="$(mktemp -d)"
-ynh_setup_source --source_id="main" --dest_dir="$build_dir"
-
-#=================================================
 # BUILD FROM SOURCES
 #=================================================
 ynh_script_progression "Building lxd from sources..."
 
-pushd "$build_dir"
-	export HOME="$build_dir"
-	ynh_hide_warnings make deps
-	export CGO_CFLAGS="-I$build_dir/vendor/dqlite/include/"
-	export CGO_LDFLAGS="-L$build_dir/vendor/dqlite/.libs/"
-	export LD_LIBRARY_PATH="$build_dir/vendor/dqlite/.libs/"
-	export CGO_LDFLAGS_ALLOW="(-Wl,-wrap,pthread_create)|(-Wl,-z,now)"
-	export GOPATH="$build_dir/vendor/"
+_ynh_build_lxd
 
-	ynh_hide_warnings make
-
-	mkdir -p /usr/local/lib/$app
-	mkdir -p /var/log/$app
-	cp -a $GOPATH/dqlite/.libs/lib*.so* /usr/local/lib/$app/
-	# No longer exists
-	if [ -f "/usr/local/bin/fuidshift" ]
-	then
-		ynh_safe_rm "/usr/local/bin/fuidshift"
-	fi
-	if [ -f "/etc/bash_completion.d/lxd-client" ]
-	then
-		ynh_safe_rm "/etc/bash_completion.d/lxd-client"
-	fi
-	cp -f $GOPATH/bin/{lxc,lxd,lxd-agent,lxd-benchmark,lxd-convert,lxd-user} /usr/local/bin
-popd
-
-ynh_safe_rm "$build_dir"
+mkdir -p "/var/log/$app"
 
 #=================================================
 # REAPPLY SYSTEM CONFIGURATION

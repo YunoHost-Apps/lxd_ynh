@@ -4,6 +4,30 @@
 # PERSONAL HELPERS
 #=================================================
 
+_ynh_build_lxd() {
+    local build_dir
+    build_dir="$(mktemp -d)"
+    ynh_setup_source --source_id="main" --dest_dir="$build_dir"
+
+    pushd "$build_dir"
+        export HOME="$build_dir"
+        export GOPATH="$build_dir/go"
+        local liblxc_dir="vendor/liblxc/lib/$(uname -m)-linux-gnu"
+
+        # The default rootfs path is inside $GOPATH, deleted after the build
+        ynh_hide_warnings make deps LIBLXC_ROOTFS_MOUNT_PATH="/usr/local/lib/$app/rootfs"
+        # Unused (lxd links liblxc.so), and its LTO sections make cgo >= 1.26.11 abort
+        ynh_safe_rm "$build_dir/$liblxc_dir/liblxc.a"
+        ynh_hide_warnings make client lxd lxd-agent lxd-benchmark lxd-convert lxd-user
+
+        mkdir -p "/usr/local/lib/$app/rootfs"
+        cp -a vendor/dqlite/.libs/lib*.so* "$liblxc_dir"/liblxc.so* "/usr/local/lib/$app/"
+        cp -f "$GOPATH"/bin/{lxc,lxd,lxd-agent,lxd-benchmark,lxd-convert,lxd-user} /usr/local/bin/
+    popd
+
+    ynh_safe_rm "$build_dir"
+}
+
 # Create a dedicated systemd socket config
 #
 # usage: ynh_add_systemd_socket_config [--socket=socket] [--template=template]
